@@ -21,6 +21,10 @@ app = FastAPI(
             "description": "管理 Shopify 独立站店铺，包括添加、查询、爬取等操作"
         },
         {
+            "name": "商品管理",
+            "description": "查询和管理爬取到的商品数据"
+        },
+        {
             "name": "default",
             "description": "系统基础接口"
         }

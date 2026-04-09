@@ -4,15 +4,21 @@ from typing import List
 from datetime import datetime
 from app.schemas.store import StoreCreate, StoreResponse
 from app.models.store import Store
+from app.models.user import User
 from app.db.database import get_db
 from app.crawler.spiders.shopify import ShopifyCrawler
 from app.core.logging_config import logger
+from app.api.v1.auth import get_current_user
 
 router = APIRouter()
 
 
 @router.post("/", response_model=StoreResponse, status_code=status.HTTP_201_CREATED, summary="创建店铺", description="添加新的独立站店铺到系统")
-async def create_store(store: StoreCreate, db: Session = Depends(get_db)):
+async def create_store(
+    store: StoreCreate, 
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     """
     ## 创建新店铺
     
@@ -42,7 +48,12 @@ async def create_store(store: StoreCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/", response_model=List[StoreResponse], summary="获取店铺列表", description="查询所有店铺，支持分页")
-async def get_stores(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+async def get_stores(
+    skip: int = 0, 
+    limit: int = 100, 
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     """
     ## 获取店铺列表
     
@@ -59,7 +70,11 @@ async def get_stores(skip: int = 0, limit: int = 100, db: Session = Depends(get_
 
 
 @router.get("/{store_id}", response_model=StoreResponse, summary="获取店铺详情", description="根据 ID 查询单个店铺的详细信息")
-async def get_store(store_id: int, db: Session = Depends(get_db)):
+async def get_store(
+    store_id: int, 
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     """
     ## 获取单个店铺详情
     
@@ -80,7 +95,8 @@ async def get_store(store_id: int, db: Session = Depends(get_db)):
 async def crawl_store(
     store_id: int, 
     background_tasks: BackgroundTasks,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     """
     ## 触发店铺爬取
