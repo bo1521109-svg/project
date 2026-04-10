@@ -41,20 +41,27 @@
             </template>
           </el-table-column>
           <el-table-column prop="title" label="商品标题" min-width="150" show-overflow-tooltip />
+          <el-table-column label="爬取时间" width="160" class-name="mobile-simple">
+            <template #default="{ row }">
+              <span style="font-size: 12px;">{{ formatDateTime(row.captured_at) }}</span>
+            </template>
+          </el-table-column>
           <el-table-column label="价格" width="100" class-name="mobile-simple">
             <template #default="{ row }">
               {{ row.currency }} {{ formatPrice(row.price) }}
+            </template>
+          </el-table-column>
+          <el-table-column label="库存状态" width="100">
+            <template #default="{ row }">
+              <el-tag v-if="row.is_available === true" type="success" size="small">有货</el-tag>
+              <el-tag v-else-if="row.is_available === false" type="danger" size="small">无货</el-tag>
+              <el-tag v-else type="info" size="small">未知</el-tag>
             </template>
           </el-table-column>
           <el-table-column prop="store_id" label="店铺ID" width="100" class-name="mobile-hide" />
           <el-table-column label="销售预估" width="120" class-name="mobile-hide">
             <template #default="{ row }">
               {{ row.sales_estimate || 0 }}
-            </template>
-          </el-table-column>
-          <el-table-column label="抓取时间" width="180" class-name="mobile-hide">
-            <template #default="{ row }">
-              {{ formatDate(row.captured_at) }}
             </template>
           </el-table-column>
           <el-table-column label="操作" width="120" fixed="right" class-name="mobile-simple">
@@ -143,10 +150,21 @@ const formatPrice = (price) => {
   return parseFloat(price).toFixed(2)
 }
 
-// 格式化日期
+// 格式化日期（完整格式）
 const formatDate = (dateStr) => {
   if (!dateStr) return '-'
   return new Date(dateStr).toLocaleString('zh-CN')
+}
+
+// 格式化日期时间（简洁格式：月-日 时:分）
+const formatDateTime = (dateStr) => {
+  if (!dateStr) return '-'
+  const date = new Date(dateStr)
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  return `${month}-${day} ${hours}:${minutes}`
 }
 
 // 打开商品链接

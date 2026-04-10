@@ -133,12 +133,11 @@ async def crawl_store(
     
     logger.info(f"开始爬取店铺: {store.name} (ID: {store_id})")
     
-    # 在后台任务中执行爬取
+    # 在后台任务中执行爬取（不传递 db，任务内部会创建新的 Session）
     background_tasks.add_task(
         _crawl_task,
         store_id=store_id,
-        store_url=store.url,
-        db=db
+        store_url=store.url
     )
     
     return {
@@ -148,48 +147,79 @@ async def crawl_store(
     }
 
 
-async def _crawl_task(store_id: int, store_url: str, db: Session):
+def _crawl_task(store_id: int, store_url: str):
     """
-    后台爬取任务
+    后台爬取任务（同步函数，内部运行异步代码）
     
     超时控制：设置爬虫超时时间（如 60 秒）
     """
     import asyncio
+    from app.db.database import SessionLocal
     
-    store = db.query(Store).filter(Store.id == store_id).first()
+    logger.info(f"🚀 后台任务启动 - 店铺 ID: {store_id}, URL: {store_url}")
+    
+    # 创建新的数据库会话（后台任务需要独立的 Session）
+    db = SessionLocal()
     
     try:
-        # 创建爬虫实例
-        crawler = ShopifyCrawler(db)
+        store = db.query(Store).filter(Store.id == store_id).first()
         
-        # 设置超时时间为 60 秒
-        result = await asyncio.wait_for(
-            crawler.crawl_store(store_url),
-            timeout=60.0
-        )
+        if not store:
+            logger.error(f"❌ 店铺 {store_id} 不存在")
+            return
         
-        # 保存商品数据
-        products = result.get("data", {}).get("products", [])
-        crawler._save_products(products, store_id)
+        logger.info(f"📍 找到店铺: {store.name}")
         
-        # 更新店铺状态
-        store.is_crawling = False
-        store.last_crawl_at = datetime.utcnow()
-        store.status = "active"
-        db.commit()
-        
-        logger.info(f"店铺 {store_id} 爬取成功，共获取 {len(products)} 个商品")
-        
-    except asyncio.TimeoutError:
-        # 超时处理
-        store.is_crawling = False
-        store.status = "error"
-        db.commit()
-        logger.error(f"店铺 {store_id} 爬取超时")
-        
+        try:
+            # 创建爬虫实例
+            logger.info(f"🔧 创建爬虫实例...")
+            crawler = ShopifyCrawler(db)
+            
+            # 在同步函数中运行异步代码
+            logger.info(f"⏳ 开始爬取（超时 60 秒）...")
+            result = asyncio.run(
+                asyncio.wait_for(
+                    crawler.crawl_store(store_url),
+                    timeout=60.0
+                )
+            )
+            
+            logger.info(f"✅ 爬取完成，处理结果...")
+            
+            # 保存商品数据
+            products = result.get("data", {}).get("products", [])
+            logger.info(f"📦 获取到 {len(products)} 个商品，开始保存...")
+            crawler._save_products(products, store_id)
+            
+            # 更新店铺状态
+            store.is_crawling = False
+            store.last_crawl_at = datetime.utcnow()
+            store.status = "active"
+            db.commit()
+            
+            logger.info(f"✅ 店铺 {store_id} 爬取成功，共获取 {len(products)} 个商品")
+            
+        except asyncio.TimeoutError:
+            # 超时处理
+            store.is_crawling = False
+            store.status = "error"
+            db.commit()
+            logger.error(f"⏰ 店铺 {store_id} 爬取超时")
+            
+        except Exception as e:
+            # 异常处理：若爬虫失败（如被反爬拦截），捕获异常并记录日志
+            store.is_crawling = False
+            store.status = "error"
+            db.commit()
+            logger.error(f"❌ 店铺 {store_id} 爬取失败: {str(e)}")
+            import traceback
+            logger.error(f"详细错误:\n{traceback.format_exc()}")
+            
     except Exception as e:
-        # 异常处理：若爬虫失败（如被反爬拦截），捕获异常并记录日志
-        store.is_crawling = False
-        store.status = "error"
-        db.commit()
-        logger.error(f"店铺 {store_id} 爬取失败: {str(e)}")
+        logger.error(f"❌ 后台任务异常: {str(e)}")
+        import traceback
+        logger.error(f"详细错误:\n{traceback.format_exc()}")
+    finally:
+        # 关闭数据库会话
+        logger.info(f"🔒 关闭数据库连接")
+        db.close()

@@ -28,7 +28,7 @@ async def get_products(
     - **skip**: 跳过多少条记录（默认 0）
     - **limit**: 最多返回多少条（默认 100）
     
-    **返回：** 商品列表
+    **返回：** 商品列表（按抓取时间降序排列，最新爬取的在前）
     """
     query = db.query(Product)
     
@@ -36,7 +36,8 @@ async def get_products(
     if store_id:
         query = query.filter(Product.store_id == store_id)
     
-    products = query.offset(skip).limit(limit).all()
+    # 按抓取时间降序排列（最新爬取的在前，NULL 值排在最后）
+    products = query.order_by(Product.captured_at.desc().nullslast()).offset(skip).limit(limit).all()
     return products
 
 

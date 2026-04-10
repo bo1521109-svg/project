@@ -1,10 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1 import router as api_v1_router
-from app.models.store import Base
+from app.db.base import Base
 from app.db.database import engine
 from app.core.config import settings
 from app.core.logging_config import logger
+
+# 导入所有模型，确保它们被注册到 Base.metadata
+from app.models import Store, Product, User, LoginLog
 
 # 自动创建数据库表结构
 Base.metadata.create_all(bind=engine)

@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.models.store import Base
+from app.db.base import Base
 import os
 
 # 从环境变量读取数据库连接地址

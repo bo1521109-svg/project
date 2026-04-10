@@ -23,7 +23,17 @@ class ProductResponse(BaseModel):
     price: Optional[float]
     currency: str
     image_url: Optional[str]
+    category: Optional[str]
+    
+    # 库存状态监控
+    is_available: Optional[bool]
+    last_available: Optional[bool]
+    status_change_at: Optional[datetime]
+    
+    # 销售数据（已废弃）
+    last_stock: Optional[int]
     sales_estimate: int
+    
     captured_at: Optional[datetime]
     created_at: datetime
     updated_at: datetime
