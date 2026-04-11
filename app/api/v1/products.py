@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional
 from app.schemas.product import ProductResponse
 from app.models.product import Product
@@ -28,9 +28,10 @@ async def get_products(
     - **skip**: 跳过多少条记录（默认 0）
     - **limit**: 最多返回多少条（默认 100）
     
-    **返回：** 商品列表（按抓取时间降序排列，最新爬取的在前）
+    **返回：** 商品列表（按抓取时间降序排列，最新爬取的在前，包含店铺名称）
     """
-    query = db.query(Product)
+    # 使用 joinedload 预加载 store 关系，避免 N+1 查询问题
+    query = db.query(Product).options(joinedload(Product.store))
     
     # 如果指定了 store_id，进行筛选
     if store_id:
@@ -38,7 +39,32 @@ async def get_products(
     
     # 按抓取时间降序排列（最新爬取的在前，NULL 值排在最后）
     products = query.order_by(Product.captured_at.desc().nullslast()).offset(skip).limit(limit).all()
-    return products
+    
+    # 手动添加 store_name 到每个商品
+    result = []
+    for product in products:
+        product_dict = {
+            "id": product.id,
+            "store_id": product.store_id,
+            "title": product.title,
+            "url": product.url,
+            "price": product.price,
+            "currency": product.currency,
+            "image_url": product.image_url,
+            "category": product.category,
+            "is_available": product.is_available,
+            "last_available": product.last_available,
+            "status_change_at": product.status_change_at,
+            "last_stock": product.last_stock,
+            "sales_estimate": product.sales_estimate,
+            "captured_at": product.captured_at,
+            "created_at": product.created_at,
+            "updated_at": product.updated_at,
+            "store_name": product.store.name if product.store else None
+        }
+        result.append(ProductResponse(**product_dict))
+    
+    return result
 
 
 @router.get("/{product_id}", response_model=ProductResponse, summary="获取商品详情", description="根据 ID 查询单个商品的详细信息")

@@ -316,19 +316,17 @@ class ShopifyCrawler(BaseCrawler):
         """
         保存商品到数据库（重写父类方法）
         
-        优化：
-        - 去重逻辑：基于 URL 唯一索引
-        - 使用 merge() 实现 UPSERT，存在则更新，不存在则插入
-        - URL 标准化处理（转小写、去除末尾斜杠、统一 https）
-        - 库存状态监控：对比 last_available 和 is_available，检测状态变化
+        逻辑变更：
+        - 商品已存在：执行 UPDATE，更新 is_available, price, captured_at
+        - 如果 is_available 发生变化：更新 last_available 和 status_change_at
+        - 商品不存在：执行 INSERT
+        - URL 标准化处理（转小写、去除末尾斜杠、统一 https、去除 www.）
         """
         from app.models.product import Product
         from datetime import datetime
         
-        saved_count = 0
-        updated_count = 0
-        skipped_count = 0
-        status_changed_count = 0  # 状态变化计数
+        inserted_count = 0  # 新增商品数
+        updated_count = 0   # 更新商品数
         
         for product_data in products:
             try:
@@ -338,63 +336,60 @@ class ShopifyCrawler(BaseCrawler):
                 url = url.rstrip('/')  # 去除末尾斜杠
                 if url.startswith('http://'):
                     url = url.replace('http://', 'https://', 1)  # 统一使用 https
+                # 去除 www. 前缀，统一 URL 格式
+                url = url.replace('https://www.', 'https://')
                 
                 if not url:
                     logger.warning(f"商品 URL 为空，跳过")
-                    skipped_count += 1
                     continue
                 
-                # 获取当前 available 状态
+                # 获取当前爬取的数据
                 current_available = product_data.get("is_available")
+                current_price = product_data.get("price")
+                current_time = datetime.utcnow()
                 
-                # 检查 URL 是否已存在
+                # 检查商品是否已存在
                 existing = self.db.query(Product).filter(Product.url == url).first()
                 
                 if existing:
-                    # 对比状态变化
-                    if existing.is_available is not None and current_available is not None:
-                        if existing.is_available != current_available:
-                            # 状态发生变化（True -> False 或 False -> True）
-                            status_changed_count += 1
-                            existing.status_change_at = datetime.utcnow()
-                            
-                            # 记录状态变化日志
-                            status_text = "有货 → 无货" if current_available is False else "无货 → 有货"
-                            logger.info(f"🔔 商品状态变化: {existing.title} ({status_text})")
+                    # 商品已存在：执行 UPDATE
+                    old_available = existing.is_available
                     
-                    # 更新现有商品
-                    existing.title = product_data.get("title", existing.title)
-                    existing.price = product_data.get("price", existing.price)
-                    existing.currency = product_data.get("currency", existing.currency)
-                    existing.image_url = product_data.get("image_url", existing.image_url)
-                    existing.category = product_data.get("category", existing.category)
+                    # 更新基础字段
+                    existing.is_available = current_available
+                    existing.price = current_price
+                    existing.captured_at = current_time
                     
-                    # 更新库存状态
-                    existing.last_available = existing.is_available  # 保存上次状态
-                    existing.is_available = current_available  # 更新当前状态
+                    # 检查库存状态是否发生变化
+                    if old_available is not None and current_available is not None:
+                        if old_available != current_available:
+                            # 状态发生变化：更新 last_available 和 status_change_at
+                            existing.last_available = old_available
+                            existing.status_change_at = current_time
+                            logger.info(f"✓ 库存状态变化: {existing.title[:30]}... | {old_available} → {current_available}")
                     
-                    existing.captured_at = datetime.utcnow()
-                    existing.updated_at = datetime.utcnow()
                     updated_count += 1
-                    logger.debug(f"更新商品: {url}, 状态: {current_available}")
+                    logger.debug(f"更新商品: {url}")
+                    
                 else:
-                    # 创建新商品（第一次爬取）
+                    # 商品不存在：执行 INSERT
                     product = Product(
                         store_id=store_id,
                         title=product_data.get("title"),
                         url=url,
-                        price=product_data.get("price"),
+                        price=current_price,
                         currency=product_data.get("currency", "USD"),
                         image_url=product_data.get("image_url"),
                         category=product_data.get("category"),
                         is_available=current_available,  # 当前状态
-                        last_available=None,  # 第一次爬取，无上次状态
+                        last_available=current_available,  # 第一次爬取，last_available = is_available
                         status_change_at=None,  # 第一次爬取，无状态变化
-                        captured_at=datetime.utcnow()
+                        captured_at=current_time
                     )
                     
                     self.db.add(product)
-                    saved_count += 1
+                    inserted_count += 1
+                    logger.debug(f"新增商品: {url}")
                 
             except Exception as e:
                 logger.error(f"保存商品失败: {product_data.get('url')}, 错误: {e}")
@@ -402,7 +397,7 @@ class ShopifyCrawler(BaseCrawler):
         
         try:
             self.db.commit()
-            logger.info(f"✓ 保存成功: 新增 {saved_count} 个, 更新 {updated_count} 个, 状态变化 {status_changed_count} 个, 跳过 {skipped_count} 个")
+            logger.info(f"✓ 保存成功: 新增 {inserted_count} 个, 更新 {updated_count} 个")
         except Exception as e:
             self.db.rollback()
             logger.error(f"✗ 数据库提交失败: {e}")

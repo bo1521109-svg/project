@@ -25,7 +25,7 @@
               {{ formatDate(row.last_crawl_at) }}
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="150" fixed="right" class-name="mobile-simple">
+          <el-table-column label="操作" width="200" fixed="right" class-name="mobile-simple">
             <template #default="{ row }">
               <el-button 
                 type="primary" 
@@ -35,6 +35,14 @@
                 @click="startCrawl(row.id)"
               >
                 {{ row.is_crawling ? '爬取中' : '爬取' }}
+              </el-button>
+              <el-button 
+                type="danger" 
+                size="small" 
+                :disabled="row.is_crawling"
+                @click="deleteStore(row)"
+              >
+                删除
               </el-button>
             </template>
           </el-table-column>
@@ -68,7 +76,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import request from '../utils/request'
 
 // 数据
@@ -139,6 +147,34 @@ const startCrawl = async (storeId) => {
     const store = stores.value.find(s => s.id === storeId)
     if (store) {
       store.is_crawling = false
+    }
+  }
+}
+
+// 删除店铺
+const deleteStore = async (store) => {
+  try {
+    // 二次确认
+    await ElMessageBox.confirm(
+      `确定要删除店铺"${store.name}"吗？此操作将同时删除该店铺下的所有商品数据，且不可恢复！`,
+      '警告',
+      {
+        confirmButtonText: '确定删除',
+        cancelButtonText: '取消',
+        type: 'warning',
+        confirmButtonClass: 'el-button--danger'
+      }
+    )
+
+    // 执行删除
+    const response = await request.delete(`/v1/stores/${store.id}`)
+    ElMessage.success(response.data.message || '店铺删除成功')
+    
+    // 刷新列表
+    fetchStores()
+  } catch (error) {
+    if (error !== 'cancel') {
+      ElMessage.error('删除店铺失败：' + (error.response?.data?.detail || error.message))
     }
   }
 }

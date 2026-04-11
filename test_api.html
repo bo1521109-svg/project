@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试商品 API</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>测试商品 API - store_name 字段</h1>
+    <button onclick="testAPI()">测试 API</button>
+    <pre id="result"></pre>
+
+    <script>
+        async function testAPI() {
+            const resultEl = document.getElementById('result');
+            resultEl.textContent = '正在测试...\n';
+
+            try {
+                // 1. 登录（使用 xiaxia 用户）
+                resultEl.textContent += '\n1. 登录中...\n';
+                const loginResponse = await fetch('http://localhost:8000/api/v1/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: 'xiaxia', password: 'xiaxia123' })
+                });
+
+                if (!loginResponse.ok) {
+                    resultEl.textContent += `❌ 登录失败: ${loginResponse.status}\n`;
+                    const error = await loginResponse.json();
+                    resultEl.textContent += JSON.stringify(error, null, 2);
+                    return;
+                }
+
+                const loginData = await loginResponse.json();
+                const token = loginData.access_token;
+                resultEl.textContent += '✅ 登录成功\n';
+
+                // 2. 获取商品列表
+                resultEl.textContent += '\n2. 获取商品列表...\n';
+                const productsResponse = await fetch('http://localhost:8000/api/v1/products/?limit=3', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!productsResponse.ok) {
+                    resultEl.textContent += `❌ 获取商品失败: ${productsResponse.status}\n`;
+                    return;
+                }
+
+                const products = await productsResponse.json();
+                resultEl.textContent += `✅ 成功获取 ${products.length} 个商品\n\n`;
+
+                // 3. 检查 store_name 字段
+                products.forEach((p, i) => {
+                    resultEl.textContent += `商品 ${i + 1}:\n`;
+                    resultEl.textContent += `  ID: ${p.id}\n`;
+                    resultEl.textContent += `  标题: ${p.title.substring(0, 40)}...\n`;
+                    resultEl.textContent += `  store_id: ${p.store_id}\n`;
+                    
+                    if ('store_name' in p) {
+                        if (p.store_name) {
+                            resultEl.textContent += `  store_name: ${p.store_name} ✅\n`;
+                        } else {
+                            resultEl.textContent += `  store_name: null ⚠️\n`;
+                        }
+                    } else {
+                        resultEl.textContent += `  store_name: ❌ 字段不存在\n`;
+                    }
+                    resultEl.textContent += '\n';
+                });
+
+                // 显示完整的 JSON
+                resultEl.textContent += '\n完整响应:\n';
+                resultEl.textContent += JSON.stringify(products, null, 2);
+
+            } catch (error) {
+                resultEl.textContent += `\n❌ 错误: ${error.message}\n`;
+            }
+        }
+    </script>
+</body>
+</html>

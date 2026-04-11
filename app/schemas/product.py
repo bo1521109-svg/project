@@ -38,4 +38,7 @@ class ProductResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
     
+    # 店铺名称（从关联的 store 对象获取）
+    store_name: Optional[str] = None
+    
     model_config = ConfigDict(from_attributes=True)

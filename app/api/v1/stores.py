@@ -147,6 +147,56 @@ async def crawl_store(
     }
 
 
+@router.delete("/{store_id}", summary="删除店铺", description="删除指定店铺及其关联的所有商品数据")
+async def delete_store(
+    store_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """
+    ## 删除店铺
+    
+    删除指定店铺及其关联的所有商品数据。
+    
+    **注意：** 此操作会级联删除该店铺下的所有商品数据，不可恢复！
+    
+    **参数说明：**
+    - **store_id**: 店铺 ID（必填）
+    
+    **返回：** 删除确认信息
+    """
+    from app.models.product import Product
+    
+    # 获取店铺信息
+    store = db.query(Store).filter(Store.id == store_id).first()
+    if not store:
+        raise HTTPException(status_code=404, detail="店铺不存在")
+    
+    # 检查是否正在爬取
+    if store.is_crawling:
+        raise HTTPException(status_code=400, detail="店铺正在爬取中，无法删除")
+    
+    # 统计关联商品数量
+    product_count = db.query(Product).filter(Product.store_id == store_id).count()
+    
+    # 删除关联的商品
+    db.query(Product).filter(Product.store_id == store_id).delete()
+    
+    # 删除店铺
+    store_name = store.name
+    db.delete(store)
+    db.commit()
+    
+    logger.info(f"删除店铺: {store_name} (ID: {store_id})，同时删除 {product_count} 个商品")
+    
+    return {
+        "message": "店铺删除成功",
+        "store_id": store_id,
+        "store_name": store_name,
+        "deleted_products": product_count
+    }
+
+
 def _crawl_task(store_id: int, store_url: str):
     """
     后台爬取任务（同步函数，内部运行异步代码）

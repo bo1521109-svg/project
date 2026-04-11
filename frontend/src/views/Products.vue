@@ -58,12 +58,7 @@
               <el-tag v-else type="info" size="small">未知</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="store_id" label="店铺ID" width="100" class-name="mobile-hide" />
-          <el-table-column label="销售预估" width="120" class-name="mobile-hide">
-            <template #default="{ row }">
-              {{ row.sales_estimate || 0 }}
-            </template>
-          </el-table-column>
+          <el-table-column prop="store_name" label="店铺名称" width="150" class-name="mobile-hide" show-overflow-tooltip />
           <el-table-column label="操作" width="120" fixed="right" class-name="mobile-simple">
             <template #default="{ row }">
               <el-button 
