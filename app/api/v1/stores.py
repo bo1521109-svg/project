@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, Query
 from sqlalchemy.orm import Session
 from typing import List
 from datetime import datetime
@@ -66,6 +66,34 @@ async def get_stores(
     **返回：** 店铺列表
     """
     stores = db.query(Store).offset(skip).limit(limit).all()
+    return stores
+
+
+@router.get("/search", response_model=List[StoreResponse], summary="搜索店铺", description="根据关键词搜索店铺")
+async def search_stores(
+    keyword: str = Query(..., description="搜索关键词", min_length=1),
+    skip: int = Query(0, description="跳过多少条记录"),
+    limit: int = Query(100, description="最多返回多少条"),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """
+    ## 搜索店铺
+    
+    根据关键词搜索店铺名称或 URL，支持模糊匹配。
+    
+    **参数说明：**
+    - **keyword**: 搜索关键词（必填，至少 1 个字符）
+    - **skip**: 跳过多少条记录（默认 0）
+    - **limit**: 最多返回多少条（默认 100）
+    
+    **返回：** 匹配的店铺列表
+    """
+    # 模糊搜索店铺名称或 URL
+    stores = db.query(Store).filter(
+        (Store.name.ilike(f"%{keyword}%")) | (Store.url.ilike(f"%{keyword}%"))
+    ).offset(skip).limit(limit).all()
+    
     return stores
 
 

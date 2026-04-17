@@ -10,3 +10,16 @@ venv/
 .gitignore
 *.md
 .DS_Store
+
+# Frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.nuxt/
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# Docs
+*.md
+README.md

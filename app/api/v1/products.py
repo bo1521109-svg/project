@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional
 from app.schemas.product import ProductResponse
@@ -38,6 +38,68 @@ async def get_products(
         query = query.filter(Product.store_id == store_id)
     
     # 按抓取时间降序排列（最新爬取的在前，NULL 值排在最后）
+    products = query.order_by(Product.captured_at.desc().nullslast()).offset(skip).limit(limit).all()
+    
+    # 手动添加 store_name 到每个商品
+    result = []
+    for product in products:
+        product_dict = {
+            "id": product.id,
+            "store_id": product.store_id,
+            "title": product.title,
+            "url": product.url,
+            "price": product.price,
+            "currency": product.currency,
+            "image_url": product.image_url,
+            "category": product.category,
+            "is_available": product.is_available,
+            "last_available": product.last_available,
+            "status_change_at": product.status_change_at,
+            "last_stock": product.last_stock,
+            "sales_estimate": product.sales_estimate,
+            "captured_at": product.captured_at,
+            "created_at": product.created_at,
+            "updated_at": product.updated_at,
+            "store_name": product.store.name if product.store else None
+        }
+        result.append(ProductResponse(**product_dict))
+    
+    return result
+
+
+@router.get("/search", response_model=List[ProductResponse], summary="搜索商品", description="根据关键词搜索商品")
+async def search_products(
+    keyword: str = Query(..., description="搜索关键词", min_length=1),
+    store_id: Optional[int] = Query(None, description="店铺 ID（可选）"),
+    skip: int = Query(0, description="跳过多少条记录"),
+    limit: int = Query(100, description="最多返回多少条"),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """
+    ## 搜索商品
+    
+    根据关键词搜索商品标题，支持模糊匹配。
+    
+    **参数说明：**
+    - **keyword**: 搜索关键词（必填，至少 1 个字符）
+    - **store_id**: 店铺 ID（可选，用于筛选）
+    - **skip**: 跳过多少条记录（默认 0）
+    - **limit**: 最多返回多少条（默认 100）
+    
+    **返回：** 匹配的商品列表（按相关度排序）
+    """
+    # 使用 joinedload 预加载 store 关系
+    query = db.query(Product).options(joinedload(Product.store))
+    
+    # 模糊搜索商品标题
+    query = query.filter(Product.title.ilike(f"%{keyword}%"))
+    
+    # 如果指定了 store_id，进行筛选
+    if store_id:
+        query = query.filter(Product.store_id == store_id)
+    
+    # 按抓取时间降序排列
     products = query.order_by(Product.captured_at.desc().nullslast()).offset(skip).limit(limit).all()
     
     # 手动添加 store_name 到每个商品
