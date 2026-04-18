@@ -147,6 +147,7 @@ def register(user_data: UserRegister, db: Session = Depends(get_db)):
     new_user = User(
         username=user_data.username,
         password_hash=hash_password(user_data.password),
+        role="user",  # 默认角色为普通用户
         phone=user_data.phone,
         invitation_code=new_invitation_code,
         invited_by=invited_by_id
@@ -194,6 +195,7 @@ def login(user_data: UserLogin, db: Session = Depends(get_db)):
         "user_info": {
             "id": user.id,
             "username": user.username,
+            "role": user.role,
             "phone": user.phone,
             "invitation_code": user.invitation_code,
             "created_at": user.created_at
@@ -213,6 +215,7 @@ def get_me(current_user: User = Depends(get_current_user), db: Session = Depends
     return {
         "id": current_user.id,
         "username": current_user.username,
+        "role": current_user.role,
         "phone": current_user.phone,
         "invitation_code": current_user.invitation_code,
         "invited_by": current_user.invited_by,

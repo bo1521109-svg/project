@@ -24,6 +24,7 @@
               :disabled="item.disabled"
               @mouseenter="handleMouseEnter(item)"
               @mouseleave="handleMouseLeave"
+              @click="handleFirstLevelClick(item)"
             >
               <span>{{ item.name }}</span>
             </el-menu-item>
@@ -120,13 +121,18 @@
 
     <!-- 主内容区 -->
     <el-main class="main-content">
-      <!-- 左侧边栏（仅在 TikTok 数据时显示） -->
+      <!-- 左侧边栏（TikTok数据时显示） -->
       <aside v-if="activeNav === 'tiktok'" class="left-sidebar">
         <TikTokSidebar />
       </aside>
       
+      <!-- 左侧边栏（独立站数据时显示） -->
+      <aside v-if="activeNav === 'shopify'" class="left-sidebar">
+        <ShopifySidebar />
+      </aside>
+      
       <!-- 右侧主内容区 -->
-      <div class="content-wrapper" :class="{ 'with-sidebar': activeNav === 'tiktok' }">
+      <div class="content-wrapper" :class="{ 'with-sidebar': activeNav === 'tiktok' || activeNav === 'shopify' }">
         <router-view />
       </div>
     </el-main>
@@ -167,6 +173,7 @@ import {
 import { useUserStore } from '../stores/user'
 import { getFilteredNav } from '../config/navigation.js'
 import TikTokSidebar from '../components/TikTok/sidebar.vue'
+import ShopifySidebar from '../components/Shopify/sidebar.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -183,8 +190,20 @@ const activeFirstLevel = ref('')
 
 // 计算当前激活的导航（用于判断是否显示侧边栏）
 const activeNav = computed(() => {
-  if (route.path.includes('/tiktok')) {
+  const path = route.path
+  // TikTok数据相关路径
+  if (path.includes('/tiktok') || 
+      path.includes('/trade') || 
+      path.includes('/service') || 
+      path.includes('/my/') ||
+      path.includes('/purchase') ||
+      path.includes('/knowledge') ||
+      path.includes('/overseas/explore')) {
     return 'tiktok'
+  }
+  // 独立站数据相关路径
+  if (path.includes('/shopify')) {
+    return 'shopify'
   }
   return ''
 })
@@ -263,6 +282,17 @@ const handleMouseEnter = (item) => {
   }
 }
 
+// 监听一级导航项的点击事件
+const handleFirstLevelClick = (item) => {
+  if (item.disabled) return
+  
+  // 点击时直接跳转到该一级导航的path
+  if (item.path && !item.placeholder) {
+    router.push(item.path)
+    closeMegaMenu()
+  }
+}
+
 // 监听一级导航项的鼠标离开事件
 const handleMouseLeave = () => {
   closeMegaMenu()
@@ -320,6 +350,14 @@ const handleCardClick = (section) => {
 
 // 处理小链接点击
 const handleLinkClick = (link) => {
+  console.log('点击链接:', link)
+  
+  // 检查链接是否有效
+  if (!link.path) {
+    console.error('链接路径为空')
+    return
+  }
+  
   // 跳转路由
   router.push(link.path)
   
@@ -772,7 +810,7 @@ const handleUserCommand = (command) => {
 }
 
 .left-sidebar {
-  width: 240px;
+  width: 200px;
   height: calc(100vh - 64px);
   position: fixed;
   left: 0;
@@ -799,6 +837,6 @@ const handleUserCommand = (command) => {
 }
 
 .content-wrapper.with-sidebar {
-  margin-left: 240px;
+  margin-left: 200px;
 }
 </style>

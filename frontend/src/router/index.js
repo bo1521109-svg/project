@@ -5,6 +5,9 @@ import Products from '../views/Products.vue'
 import Profile from '../views/Profile.vue'
 import Login from '../views/Login.vue'
 import Placeholder from '../views/Placeholder.vue'
+import UserManagement from '../views/admin/UserManagement.vue'
+import PermissionManagement from '../views/admin/PermissionManagement.vue'
+import LoginLogs from '../views/admin/LoginLogs.vue'
 import { useUserStore } from '../stores/user'
 
 const routes = [
@@ -171,6 +174,24 @@ const routes = [
         component: Placeholder,
         meta: { title: '潜力新品榜', requiresAuth: true, placeholder: true }
       },
+      {
+        path: '/tiktok/products/history-rank',
+        name: 'TikTokProductsHistoryRank',
+        component: Placeholder,
+        meta: { title: '历史同期榜', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/tiktok/products/amazon-search',
+        name: 'TikTokProductsAmazonSearch',
+        component: Placeholder,
+        meta: { title: '亚马逊搜索', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/tiktok/products/tiktok-search',
+        name: 'TikTokProductsTikTokSearch',
+        component: Placeholder,
+        meta: { title: 'TikTok搜索', requiresAuth: true, placeholder: true }
+      },
 
       // ========== TikTok 数据 - 盯爆店（占位） ==========
       {
@@ -235,7 +256,7 @@ const routes = [
         path: '/tiktok/videos/ai',
         name: 'TikTokVideosAi',
         component: Placeholder,
-        meta: { title: 'AI 爆款', requiresAuth: true, placeholder: true }
+        meta: { title: 'AI 视频', requiresAuth: true, placeholder: true }
       },
 
       // ========== TikTok 数据 - 找广告（占位） ==========
@@ -250,6 +271,94 @@ const routes = [
         name: 'TikTokAdsMobile',
         component: Placeholder,
         meta: { title: '建站广告', requiresAuth: true, placeholder: true }
+      },
+
+      // ========== TikTok 数据 - 直播（占位） ==========
+      {
+        path: '/tiktok/live/search',
+        name: 'TikTokLiveSearch',
+        component: Placeholder,
+        meta: { title: '直播搜索', requiresAuth: true, placeholder: true }
+      },
+
+      // ========== 外贸（占位） ==========
+      {
+        path: '/trade/region',
+        name: 'TradeRegion',
+        component: Placeholder,
+        meta: { title: '外贸区域', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/trade/product',
+        name: 'TradeProduct',
+        component: Placeholder,
+        meta: { title: '外贸产品', requiresAuth: true, placeholder: true }
+      },
+
+      // ========== 服务商（占位） ==========
+      {
+        path: '/service/logistics',
+        name: 'ServiceLogistics',
+        component: Placeholder,
+        meta: { title: '国际物流', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/service/warehouse',
+        name: 'ServiceWarehouse',
+        component: Placeholder,
+        meta: { title: '海外仓', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/service/qualification',
+        name: 'ServiceQualification',
+        component: Placeholder,
+        meta: { title: '资质办理', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/service/factory',
+        name: 'ServiceFactory',
+        component: Placeholder,
+        meta: { title: '海外工厂', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/service/influencer',
+        name: 'ServiceInfluencer',
+        component: Placeholder,
+        meta: { title: '达人对接', requiresAuth: true, placeholder: true }
+      },
+
+      // ========== 我的（占位） ==========
+      {
+        path: '/my/favorites',
+        name: 'MyFavorites',
+        component: Placeholder,
+        meta: { title: '我的收藏', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/my/creations',
+        name: 'MyCreations',
+        component: Placeholder,
+        meta: { title: '我的创作', requiresAuth: true, placeholder: true }
+      },
+
+      // ========== 其他功能（占位） ==========
+      {
+        path: '/purchase',
+        name: 'Purchase',
+        component: Placeholder,
+        meta: { title: '购买续费', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/knowledge',
+        name: 'Knowledge',
+        component: Placeholder,
+        meta: { title: '知识付费', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/overseas/explore',
+        name: 'OverseasExplore',
+        component: Placeholder,
+        meta: { title: '出海探索', requiresAuth: true, placeholder: true }
       },
 
 
@@ -481,25 +590,45 @@ const routes = [
       // ========== 平台管理（管理员专属） ==========
       {
         path: '/admin',
-        redirect: '/admin/users'
+        redirect: '/admin/crawler/tasks'
       },
+      // 爬虫管理
+      {
+        path: '/admin/crawler/tasks',
+        name: 'AdminCrawlerTasks',
+        component: Placeholder,
+        meta: { title: '爬虫任务列表', requiresAuth: true, requiresAdmin: true }
+      },
+      {
+        path: '/admin/crawler/logs',
+        name: 'AdminCrawlerLogs',
+        component: Placeholder,
+        meta: { title: '爬虫日志', requiresAuth: true, requiresAdmin: true }
+      },
+      {
+        path: '/admin/crawler/config',
+        name: 'AdminCrawlerConfig',
+        component: Placeholder,
+        meta: { title: '爬虫配置', requiresAuth: true, requiresAdmin: true }
+      },
+      // 用户管理
       {
         path: '/admin/users',
         name: 'AdminUsers',
-        component: Placeholder,
+        component: UserManagement,
         meta: { title: '用户管理', requiresAuth: true, requiresAdmin: true }
       },
       {
         path: '/admin/permissions',
         name: 'AdminPermissions',
-        component: Placeholder,
+        component: PermissionManagement,
         meta: { title: '权限管理', requiresAuth: true, requiresAdmin: true }
       },
       {
-        path: '/admin/settings',
-        name: 'AdminSettings',
-        component: Placeholder,
-        meta: { title: '系统设置', requiresAuth: true, requiresAdmin: true }
+        path: '/admin/login-logs',
+        name: 'AdminLoginLogs',
+        component: LoginLogs,
+        meta: { title: '登录日志', requiresAuth: true, requiresAdmin: true }
       }
     ]
   }
@@ -514,24 +643,38 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
   const isLoggedIn = userStore.isLoggedIn()
-  const userRole = userStore.user?.role || 'user' // 获取用户角色，默认为 'user'
+  const userRole = userStore.userInfo?.role || 'user' // 获取用户角色，默认为 'user'
+
+  console.log('路由守卫:', {
+    to: to.path,
+    from: from.path,
+    isLoggedIn,
+    userRole,
+    userInfo: userStore.userInfo,
+    requiresAuth: to.meta.requiresAuth,
+    requiresAdmin: to.meta.requiresAdmin
+  })
 
   // 访问需要登录的页面（/stores, /products 等）
   if (to.meta.requiresAuth && !isLoggedIn) {
     // 无 token，重定向到登录页
+    console.log('未登录，重定向到登录页')
     next('/login')
   } 
   // 访问管理员专属页面，但用户不是管理员
   else if (to.meta.requiresAdmin && userRole !== 'admin') {
     // 非管理员访问管理员页面，重定向到首页
+    console.log('非管理员，重定向到首页')
     next('/stores')
   }
   // 已登录用户访问登录页，重定向到店铺管理
   else if (to.path === '/login' && isLoggedIn) {
+    console.log('已登录，重定向到店铺管理')
     next('/stores')
   } 
   // 其他情况正常放行
   else {
+    console.log('正常放行')
     next()
   }
 })

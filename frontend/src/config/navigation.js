@@ -42,7 +42,7 @@ export const navigationConfig = [
   // 一级导航：TikTok 数据
   {
     name: 'TikTok 数据',
-    path: '/tiktok',
+    path: '/overseas/explore',
     icon: 'VideoPlay',
     children: [
       {
@@ -88,17 +88,17 @@ export const navigationConfig = [
         ]
       },
       {
-        // 大卡片 4：找视频
+        // 大卡片 4：内容
         card: {
-          title: '找视频',
-          desc: '热门视频素材',
+          title: '内容',
+          desc: '视频广告直播',
           icon: 'VideoPlay'
         },
         links: [
           { name: '视频搜索', path: '/tiktok/videos' },
-          { name: 'AI 爆款', path: '/tiktok/videos/ai' },
-          { name: '广告搜索', path: '/tiktok/videos/ads' },
-          { name: '', path: '', isBlank: true }
+          { name: 'AI 视频', path: '/tiktok/videos/ai' },
+          { name: '广告搜索', path: '/tiktok/ads/search' },
+          { name: '直播搜索', path: '/tiktok/live/search' }
         ]
       },
       {
@@ -398,14 +398,28 @@ export const adminNavigation = {
   children: [
     {
       card: {
-        title: '系统管理',
-        desc: '用户与权限管理',
-        icon: 'Setting'
+        title: '爬虫管理',
+        desc: '管理爬虫任务',
+        icon: 'Connection'
       },
       links: [
-        { name: '用户管理', path: '/admin/users', placeholder: true },
-        { name: '权限管理', path: '/admin/permissions', placeholder: true },
-        { name: '系统设置', path: '/admin/settings', placeholder: true }
+        { name: '爬虫任务列表', path: '/admin/crawler/tasks' },
+        { name: '爬虫日志', path: '/admin/crawler/logs' },
+        { name: '爬虫配置', path: '/admin/crawler/config' },
+        { name: '', path: '', isBlank: true }
+      ]
+    },
+    {
+      card: {
+        title: '用户管理',
+        desc: '管理平台用户',
+        icon: 'User'
+      },
+      links: [
+        { name: '用户列表', path: '/admin/users' },
+        { name: '角色权限', path: '/admin/permissions' },
+        { name: '登录日志', path: '/admin/login-logs' },
+        { name: '', path: '', isBlank: true }
       ]
     }
   ]

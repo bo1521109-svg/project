@@ -13,6 +13,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True, comment="用户ID")
     username = Column(String(50), unique=True, nullable=False, index=True, comment="用户名（唯一）")
     password_hash = Column(String(255), nullable=False, comment="密码哈希（加密存储）")
+    role = Column(String(20), nullable=False, default="user", comment="用户角色（user/admin）")
     phone = Column(String(20), nullable=True, comment="手机号（可选）")
     invitation_code = Column(String(20), unique=True, nullable=False, index=True, comment="邀请码（唯一，自动生成）")
     invited_by = Column(Integer, ForeignKey("users.id"), nullable=True, comment="邀请人ID（外键，指向邀请人）")

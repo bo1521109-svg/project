@@ -57,13 +57,13 @@
       </el-dropdown>
 
       <!-- 知识付费按钮 -->
-      <div class="knowledge-btn">
+      <div class="knowledge-btn" @click="handleKnowledgeClick">
         <el-icon class="knowledge-icon"><Reading /></el-icon>
         <span class="knowledge-text">知识付费</span>
       </div>
 
       <!-- 出海探索按钮 -->
-      <div class="explore-btn">
+      <div class="explore-btn" @click="handleExploreClick">
         <el-icon class="explore-icon"><Search /></el-icon>
         <span class="explore-text">出海探索</span>
       </div>
@@ -86,9 +86,9 @@
             <el-icon><Histogram /></el-icon>
             <span>数据大盘</span>
           </template>
-          <el-menu-item index="dashboard-category">品类大盘</el-menu-item>
-          <el-menu-item index="dashboard-product">商品大盘</el-menu-item>
-          <el-menu-item index="dashboard-store">店铺大盘</el-menu-item>
+          <el-menu-item index="/tiktok/category/overview">品类大盘</el-menu-item>
+          <el-menu-item index="/tiktok/product/overview">商品大盘</el-menu-item>
+          <el-menu-item index="/tiktok/store/overview">店铺大盘</el-menu-item>
         </el-sub-menu>
 
         <!-- 商品 -->
@@ -97,13 +97,13 @@
             <el-icon><ShoppingBag /></el-icon>
             <span>商品</span>
           </template>
-          <el-menu-item index="products-search">商品搜索</el-menu-item>
-          <el-menu-item index="products-sales-rank">销量榜</el-menu-item>
-          <el-menu-item index="products-hot-rank">热推榜</el-menu-item>
-          <el-menu-item index="products-new-rank">新品榜</el-menu-item>
-          <el-menu-item index="products-history">历史同期榜</el-menu-item>
-          <el-menu-item index="products-amazon-search">亚马逊搜索</el-menu-item>
-          <el-menu-item index="products-tiktok-search">TikTok搜索</el-menu-item>
+          <el-menu-item index="/tiktok/products">商品搜索</el-menu-item>
+          <el-menu-item index="/tiktok/products/sales-rank">销量榜</el-menu-item>
+          <el-menu-item index="/tiktok/products/surge-rank">热推榜</el-menu-item>
+          <el-menu-item index="/tiktok/products/potential-new">新品榜</el-menu-item>
+          <el-menu-item index="/tiktok/products/history-rank">历史同期榜</el-menu-item>
+          <el-menu-item index="/tiktok/products/amazon-search">亚马逊搜索</el-menu-item>
+          <el-menu-item index="/tiktok/products/tiktok-search">TikTok搜索</el-menu-item>
         </el-sub-menu>
 
         <!-- 店铺 -->
@@ -112,9 +112,9 @@
             <el-icon><Shop /></el-icon>
             <span>店铺</span>
           </template>
-          <el-menu-item index="stores-search">店铺搜索</el-menu-item>
-          <el-menu-item index="stores-sales-rank">销量榜</el-menu-item>
-          <el-menu-item index="stores-hot-rank">热推榜</el-menu-item>
+          <el-menu-item index="/tiktok/stores">店铺搜索</el-menu-item>
+          <el-menu-item index="/tiktok/stores/best-sellers">销量榜</el-menu-item>
+          <el-menu-item index="/tiktok/stores/surge-rank">热推榜</el-menu-item>
         </el-sub-menu>
 
         <!-- 达人 -->
@@ -123,38 +123,22 @@
             <el-icon><User /></el-icon>
             <span>达人</span>
           </template>
-          <el-menu-item index="influencers-search">达人搜索</el-menu-item>
-          <el-menu-item index="influencers-sales-rank">带货达人榜</el-menu-item>
-          <el-menu-item index="influencers-follower-rank">涨粉达人榜</el-menu-item>
-          <el-menu-item index="influencers-agency-rank">达人机构榜</el-menu-item>
+          <el-menu-item index="/tiktok/influencers">达人搜索</el-menu-item>
+          <el-menu-item index="/tiktok/influencers/sales-rank">带货达人榜</el-menu-item>
+          <el-menu-item index="/tiktok/influencers/follower-rank">涨粉达人榜</el-menu-item>
+          <el-menu-item index="/tiktok/influencers/agency-rank">达人机构榜</el-menu-item>
         </el-sub-menu>
 
-        <!-- 视频 -->
-        <el-sub-menu index="videos">
+        <!-- 内容 -->
+        <el-sub-menu index="content">
           <template #title>
             <el-icon><VideoIcon /></el-icon>
-            <span>视频</span>
+            <span>内容</span>
           </template>
-          <el-menu-item index="videos-hot">热门视频</el-menu-item>
-          <el-menu-item index="videos-ai">AI视频</el-menu-item>
-        </el-sub-menu>
-
-        <!-- 广告 -->
-        <el-sub-menu index="ads">
-          <template #title>
-            <el-icon><AdIcon /></el-icon>
-            <span>广告</span>
-          </template>
-          <el-menu-item index="ads-search">广告搜索</el-menu-item>
-        </el-sub-menu>
-
-        <!-- 直播 -->
-        <el-sub-menu index="live">
-          <template #title>
-            <el-icon><VideoCamera /></el-icon>
-            <span>直播</span>
-          </template>
-          <el-menu-item index="live-search">直播搜索</el-menu-item>
+          <el-menu-item index="/tiktok/videos">视频搜索</el-menu-item>
+          <el-menu-item index="/tiktok/videos/ai">AI视频</el-menu-item>
+          <el-menu-item index="/tiktok/ads/search">广告搜索</el-menu-item>
+          <el-menu-item index="/tiktok/live/search">直播搜索</el-menu-item>
         </el-sub-menu>
       </el-menu>
 
@@ -170,8 +154,8 @@
             <el-icon><Ship /></el-icon>
             <span>外贸</span>
           </template>
-          <el-menu-item index="trade-region">区域</el-menu-item>
-          <el-menu-item index="trade-product">产品</el-menu-item>
+          <el-menu-item index="/trade/region">区域</el-menu-item>
+          <el-menu-item index="/trade/product">产品</el-menu-item>
         </el-sub-menu>
       </el-menu>
 
@@ -187,11 +171,11 @@
             <el-icon><Service /></el-icon>
             <span>服务商</span>
           </template>
-          <el-menu-item index="service-logistics">国际物流</el-menu-item>
-          <el-menu-item index="service-warehouse">海外仓</el-menu-item>
-          <el-menu-item index="service-qualification">资质办理</el-menu-item>
-          <el-menu-item index="service-factory">海外工厂</el-menu-item>
-          <el-menu-item index="service-influencer">达人对接</el-menu-item>
+          <el-menu-item index="/service/logistics">国际物流</el-menu-item>
+          <el-menu-item index="/service/warehouse">海外仓</el-menu-item>
+          <el-menu-item index="/service/qualification">资质办理</el-menu-item>
+          <el-menu-item index="/service/factory">海外工厂</el-menu-item>
+          <el-menu-item index="/service/influencer">达人对接</el-menu-item>
         </el-sub-menu>
       </el-menu>
 
@@ -207,19 +191,19 @@
             <el-icon><Star /></el-icon>
             <span>我的</span>
           </template>
-          <el-menu-item index="my-favorites">我的收藏</el-menu-item>
-          <el-menu-item index="my-creations">我的创作</el-menu-item>
+          <el-menu-item index="/my/favorites">我的收藏</el-menu-item>
+          <el-menu-item index="/my/creations">我的创作</el-menu-item>
         </el-sub-menu>
       </el-menu>
 
       <!-- 购买续费 -->
-      <div class="menu-item-btn" @click="handleMenuSelect('purchase')">
+      <div class="menu-item-btn" @click="handleMenuSelect('/purchase')">
         <el-icon class="menu-item-icon"><CreditCard /></el-icon>
         <span class="menu-item-text">购买续费</span>
       </div>
 
       <!-- 账户中心 -->
-      <div class="menu-item-btn" @click="handleMenuSelect('account')">
+      <div class="menu-item-btn" @click="handleMenuSelect('/profile')">
         <el-icon class="menu-item-icon"><Setting /></el-icon>
         <span class="menu-item-text">账户中心</span>
       </div>
@@ -306,8 +290,24 @@ const handleCountryChange = (country) => {
 // 处理菜单选择
 const handleMenuSelect = (index) => {
   activeMenu.value = index
-  // 根据菜单项跳转到对应路由
-  // router.push(`/tiktok/${index}`)
+  
+  // 如果index以'/'开头，说明是可复用的路由路径，直接跳转
+  if (index.startsWith('/')) {
+    router.push(index)
+  } else {
+    // 否则是暂未实现的功能，暂不跳转
+    console.log('菜单项暂未实现:', index)
+  }
+}
+
+// 处理知识付费按钮点击
+const handleKnowledgeClick = () => {
+  router.push('/knowledge')
+}
+
+// 处理出海探索按钮点击
+const handleExploreClick = () => {
+  router.push('/overseas/explore')
 }
 </script>
 
@@ -315,7 +315,7 @@ const handleMenuSelect = (index) => {
 .tiktok-sidebar {
   width: 100%;
   height: 100%;
-  padding: 12px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   background: #f0f2f5;
@@ -325,12 +325,12 @@ const handleMenuSelect = (index) => {
 /* 上方区域 */
 .sidebar-top {
   background: #ffffff;
-  border-radius: 16px;
-  padding: 12px;
+  border-radius: 12px;
+  padding: 10px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   box-sizing: border-box;
 }
 
@@ -343,12 +343,12 @@ const handleMenuSelect = (index) => {
 .selector-item {
   display: flex;
   align-items: center;
-  padding: 8px 12px;
-  border-radius: 12px;
+  padding: 6px 10px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.2s;
   box-sizing: border-box;
-  min-height: 36px;
+  min-height: 32px;
   width: 100%;
 }
 
@@ -366,25 +366,25 @@ const handleMenuSelect = (index) => {
 }
 
 .item-icon {
-  font-size: 18px;
-  margin-right: 8px;
+  font-size: 16px;
+  margin-right: 6px;
   color: #303133;
 }
 
 .country-flag {
-  font-size: 18px;
-  margin-right: 8px;
+  font-size: 16px;
+  margin-right: 6px;
 }
 
 .item-text {
   flex: 1;
-  font-size: 14px;
+  font-size: 13px;
   color: #303133;
   font-weight: 500;
 }
 
 .arrow-icon {
-  font-size: 14px;
+  font-size: 12px;
   color: #909399;
 }
 
@@ -392,13 +392,13 @@ const handleMenuSelect = (index) => {
 .knowledge-btn {
   display: flex;
   align-items: center;
-  padding: 8px 12px;
+  padding: 6px 10px;
   background: #f5f7fa;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s;
   box-sizing: border-box;
-  min-height: 36px;
+  min-height: 32px;
 }
 
 .knowledge-btn:hover {
@@ -407,13 +407,13 @@ const handleMenuSelect = (index) => {
 }
 
 .knowledge-icon {
-  font-size: 20px;
-  margin-right: 10px;
+  font-size: 16px;
+  margin-right: 8px;
   color: #606266;
 }
 
 .knowledge-text {
-  font-size: 14px;
+  font-size: 13px;
   color: #303133;
   font-weight: 500;
 }
@@ -422,13 +422,13 @@ const handleMenuSelect = (index) => {
 .menu-item-btn {
   display: flex;
   align-items: center;
-  padding: 8px 20px;
+  padding: 6px 16px;
   background: #ffffff;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
   box-sizing: border-box;
-  min-height: 36px;
+  min-height: 32px;
   margin-bottom: 4px;
 }
 
@@ -446,14 +446,14 @@ const handleMenuSelect = (index) => {
 }
 
 .menu-item-icon {
-  font-size: 18px;
-  margin-right: 8px;
+  font-size: 16px;
+  margin-right: 6px;
   color: #606266;
   transition: color 0.2s;
 }
 
 .menu-item-text {
-  font-size: 14px;
+  font-size: 13px;
   color: #303133;
   font-weight: 400;
   transition: color 0.2s;
@@ -464,12 +464,12 @@ const handleMenuSelect = (index) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 16px;
+  padding: 10px 12px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s;
-  gap: 8px;
+  gap: 6px;
   box-sizing: border-box;
 }
 
@@ -480,19 +480,19 @@ const handleMenuSelect = (index) => {
 }
 
 .explore-icon {
-  font-size: 18px;
+  font-size: 16px;
   color: #ffffff;
 }
 
 .explore-text {
-  font-size: 14px;
+  font-size: 13px;
   color: #ffffff;
   font-weight: 600;
 }
 
 /* 中间间隙 */
 .sidebar-gap {
-  height: 12px;
+  height: 10px;
   flex-shrink: 0;
 }
 
@@ -500,8 +500,8 @@ const handleMenuSelect = (index) => {
 .sidebar-bottom {
   flex: 1;
   background: #ffffff;
-  border-radius: 16px;
-  padding: 8px;
+  border-radius: 12px;
+  padding: 6px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   overflow-y: auto;
   box-sizing: border-box;
@@ -519,16 +519,16 @@ const handleMenuSelect = (index) => {
 
 .sidebar-menu .el-menu-item {
   border-radius: 6px;
-  height: 36px;
-  line-height: 36px;
-  padding: 0 16px !important;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 12px !important;
   display: flex !important;
   align-items: center;
   justify-content: flex-start !important;
 }
 
 .sidebar-menu .el-menu-item .el-icon {
-  margin-right: 8px;
+  margin-right: 6px;
   flex-shrink: 0;
 }
 
@@ -539,17 +539,17 @@ const handleMenuSelect = (index) => {
 
 .sidebar-menu .el-sub-menu :deep(.el-sub-menu__title) {
   border-radius: 6px;
-  height: 36px;
-  line-height: 36px;
-  padding: 0 16px !important;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 12px !important;
   display: flex !important;
   align-items: center;
   justify-content: flex-start !important;
 }
 
 .sidebar-menu .el-sub-menu :deep(.el-sub-menu__title .el-icon) {
-  margin-right: 8px;
-  font-size: 18px;
+  margin-right: 6px;
+  font-size: 16px;
   color: #606266;
   transition: color 0.2s;
 }
@@ -557,7 +557,7 @@ const handleMenuSelect = (index) => {
 .sidebar-menu .el-sub-menu :deep(.el-sub-menu__title span) {
   flex: 1;
   text-align: left !important;
-  font-size: 14px;
+  font-size: 13px;
   color: #303133;
   font-weight: 400;
   transition: color 0.2s;
@@ -598,13 +598,14 @@ const handleMenuSelect = (index) => {
 
 /* 二级菜单项样式 */
 .sidebar-menu .el-menu-item {
-  padding-left: 48px !important;
+  padding-left: 40px !important;
 }
 
 .sidebar-menu .el-sub-menu .el-menu-item {
-  min-height: 36px;
-  height: 36px;
-  line-height: 36px;
+  min-height: 32px;
+  height: 32px;
+  line-height: 32px;
+  font-size: 12px;
 }
 
 .sidebar-menu .el-sub-menu .el-menu-item:hover {
@@ -624,8 +625,8 @@ const handleMenuSelect = (index) => {
 
 /* 底部图片样式 */
 .sidebar-image {
-  margin-top: 12px;
-  border-radius: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -680,12 +681,12 @@ const handleMenuSelect = (index) => {
 <style>
 /* 全局样式：控制侧边栏下拉菜单宽度 */
 .sidebar-dropdown-popper {
-  width: 192px !important;
+  width: 160px !important;
 }
 
 .sidebar-dropdown-popper .el-dropdown-menu {
   width: 100% !important;
-  border-radius: 12px !important;
+  border-radius: 10px !important;
 }
 
 /* 强制菜单项居左对齐 */

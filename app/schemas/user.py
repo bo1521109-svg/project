@@ -25,6 +25,7 @@ class UserResponse(BaseModel):
     """用户信息输出"""
     id: int
     username: str
+    role: str = "user"
     phone: Optional[str] = None
     invitation_code: str
     invited_by: Optional[int] = None

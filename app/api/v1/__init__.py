@@ -2,6 +2,9 @@ from fastapi import APIRouter
 from .stores import router as stores_router
 from .products import router as products_router
 from .auth import router as auth_router
+from .admin_users import router as admin_users_router
+from .admin_permissions import router as admin_permissions_router
+from .admin_login_logs import router as admin_login_logs_router
 
 # 导入新的独立站数据模块
 from .product_search import router as product_search_router
@@ -17,34 +20,43 @@ from .store_overview import router as store_overview_router
 from .ai_report import router as ai_report_router
 from .ad_library import router as ad_library_router
 
-# 导入 TikTok 数据模块（按 5 个模块组分组）
-# TikTok 大盘组（/tiktok/overview）
-from .tk_overview_category import router as tk_overview_category_router
-from .tk_overview_product import router as tk_overview_product_router
-from .tk_overview_store import router as tk_overview_store_router
-from .tk_overview_ai import router as tk_overview_ai_router
-
-# 选爆品组（/tiktok/products）
-from .tk_prod_search import router as tk_prod_search_router
-from .tk_prod_sales_rank import router as tk_prod_sales_rank_router
-from .tk_prod_surge_rank import router as tk_prod_surge_rank_router
-from .tk_prod_potential_new import router as tk_prod_potential_new_router
-
-# 盯爆店组（/tiktok/stores）
-from .tk_store_search import router as tk_store_search_router
-from .tk_store_best_sellers import router as tk_store_best_sellers_router
-from .tk_store_surge_rank import router as tk_store_surge_rank_router
-
-# 找视频组（/tiktok/videos）
-from .tk_video_search import router as tk_video_search_router
-from .tk_video_ai import router as tk_video_ai_router
-from .tk_video_ads import router as tk_video_ads_router
-
-# 选达人组（/tiktok/influencers）
-from .tk_inf_search import router as tk_inf_search_router
-from .tk_inf_sales_rank import router as tk_inf_sales_rank_router
-from .tk_inf_follower_rank import router as tk_inf_follower_rank_router
-from .tk_inf_agency_rank import router as tk_inf_agency_rank_router
+# 导入 TikTok 数据模块（从 tiktok 子模块导入）
+from .tiktok import (
+    tk_overview_category_router,
+    tk_overview_product_router,
+    tk_overview_store_router,
+    tk_overview_ai_router,
+    tk_prod_search_router,
+    tk_prod_sales_rank_router,
+    tk_prod_surge_rank_router,
+    tk_prod_potential_new_router,
+    tk_prod_history_rank_router,
+    tk_prod_amazon_search_router,
+    tk_prod_tiktok_search_router,
+    tk_store_search_router,
+    tk_store_best_sellers_router,
+    tk_store_surge_rank_router,
+    tk_video_search_router,
+    tk_video_ai_router,
+    tk_video_ads_router,
+    tk_inf_search_router,
+    tk_inf_sales_rank_router,
+    tk_inf_follower_rank_router,
+    tk_inf_agency_rank_router,
+    tk_live_search_router,
+    trade_region_router,
+    trade_product_router,
+    service_logistics_router,
+    service_warehouse_router,
+    service_qualification_router,
+    service_factory_router,
+    service_influencer_router,
+    my_favorites_router,
+    my_creations_router,
+    purchase_renewal_router,
+    knowledge_payment_router,
+    overseas_explore_router,
+)
 
 # 导入内容创作模块（按 4 个模块组分组）
 # 找创意组（/content/creative）
@@ -126,6 +138,9 @@ router.include_router(tk_prod_search_router, prefix="/tiktok/products", tags=["T
 router.include_router(tk_prod_sales_rank_router, prefix="/tiktok/products", tags=["TikTok 选爆品"])
 router.include_router(tk_prod_surge_rank_router, prefix="/tiktok/products", tags=["TikTok 选爆品"])
 router.include_router(tk_prod_potential_new_router, prefix="/tiktok/products", tags=["TikTok 选爆品"])
+router.include_router(tk_prod_history_rank_router, prefix="/tiktok/products/history-rank", tags=["TikTok 选爆品"])
+router.include_router(tk_prod_amazon_search_router, prefix="/tiktok/products/amazon-search", tags=["TikTok 选爆品"])
+router.include_router(tk_prod_tiktok_search_router, prefix="/tiktok/products/tiktok-search", tags=["TikTok 选爆品"])
 
 # 盯爆店组
 router.include_router(tk_store_search_router, prefix="/tiktok/stores", tags=["TikTok 盯爆店"])
@@ -142,6 +157,29 @@ router.include_router(tk_inf_search_router, prefix="/tiktok/influencers", tags=[
 router.include_router(tk_inf_sales_rank_router, prefix="/tiktok/influencers", tags=["TikTok 选达人"])
 router.include_router(tk_inf_follower_rank_router, prefix="/tiktok/influencers", tags=["TikTok 选达人"])
 router.include_router(tk_inf_agency_rank_router, prefix="/tiktok/influencers", tags=["TikTok 选达人"])
+
+# 直播组
+router.include_router(tk_live_search_router, prefix="/tk/live", tags=["TikTok 直播"])
+
+# 外贸组
+router.include_router(trade_region_router, prefix="/trade/region", tags=["TikTok 外贸"])
+router.include_router(trade_product_router, prefix="/trade/product", tags=["TikTok 外贸"])
+
+# 服务商组
+router.include_router(service_logistics_router, prefix="/service/logistics", tags=["TikTok 服务商"])
+router.include_router(service_warehouse_router, prefix="/service/warehouse", tags=["TikTok 服务商"])
+router.include_router(service_qualification_router, prefix="/service/qualification", tags=["TikTok 服务商"])
+router.include_router(service_factory_router, prefix="/service/factory", tags=["TikTok 服务商"])
+router.include_router(service_influencer_router, prefix="/service/influencer", tags=["TikTok 服务商"])
+
+# 我的组
+router.include_router(my_favorites_router, prefix="/my/favorites", tags=["TikTok 我的"])
+router.include_router(my_creations_router, prefix="/my/creations", tags=["TikTok 我的"])
+
+# 其他功能
+router.include_router(purchase_renewal_router, prefix="/purchase", tags=["TikTok 购买续费"])
+router.include_router(knowledge_payment_router, prefix="/knowledge", tags=["TikTok 知识付费"])
+router.include_router(overseas_explore_router, prefix="/overseas/explore", tags=["TikTok 出海探索"])
 
 # 内容创作路由（按 4 个模块组注册）
 # 找创意组
@@ -189,3 +227,8 @@ router.include_router(social_accounts_manage_router, tags=["社媒管理-账号�
 
 # 出海生态路由
 router.include_router(ecosystem_api_router, tags=["出海生态"])
+
+# 管理员路由
+router.include_router(admin_users_router, prefix="/admin/users", tags=["平台管理-用户管理"])
+router.include_router(admin_permissions_router, prefix="/admin/permissions", tags=["平台管理-角色权限"])
+router.include_router(admin_login_logs_router, prefix="/admin/login-logs", tags=["平台管理-登录日志"])
