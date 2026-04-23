@@ -24,33 +24,70 @@ class ShopifyCrawler(BaseCrawler):
         
         优化日志：记录"站点 URL"、"抓取商品数"、"失败原因"
         """
-        logger.info(f"开始爬取站点: {url}")
+        # 清理URL中的跟踪参数
+        clean_url = self._clean_url(url)
+        logger.info(f"开始爬取站点: {clean_url}")
+        if clean_url != url:
+            logger.info(f"URL已清理，原始URL: {url}")
         
         try:
             # 策略一：优先尝试 JSON API
-            result = await self._fetch_via_api(url)
+            result = await self._fetch_via_api(clean_url)
             
             if result and result.get("products"):
                 product_count = len(result["products"])
-                logger.info(f"✓ JSON API 成功 - 站点: {url}, 商品数: {product_count}")
+                logger.info(f"✓ JSON API 成功 - 站点: {clean_url}, 商品数: {product_count}")
                 return {"success": True, "data": result, "method": "JSON API"}
             
             # 策略二：fallback 到 HTML 抓取
-            logger.warning(f"JSON API 失败，fallback 到 HTML 抓取: {url}")
-            result = await self._fetch_via_html(url)
+            logger.warning(f"JSON API 失败，fallback 到 HTML 抓取: {clean_url}")
+            result = await self._fetch_via_html(clean_url)
             
             product_count = len(result.get("products", []))
             
             if product_count == 0:
-                logger.warning(f"✗ HTML 抓取返回 0 商品 - 站点: {url}")
+                logger.warning(f"✗ HTML 抓取返回 0 商品 - 站点: {clean_url}")
+                logger.warning(f"可能原因：1) 非Shopify站点 2) 反爬保护 3) 需要登录")
             else:
-                logger.info(f"✓ HTML 抓取成功 - 站点: {url}, 商品数: {product_count}")
+                logger.info(f"✓ HTML 抓取成功 - 站点: {clean_url}, 商品数: {product_count}")
             
             return {"success": True, "data": result, "method": "HTML"}
             
         except Exception as e:
-            logger.error(f"✗ 爬取失败 - 站点: {url}, 错误: {str(e)}")
+            logger.error(f"✗ 爬取失败 - 站点: {clean_url}, 错误: {str(e)}")
             return {"success": False, "error": str(e), "data": {"products": []}}
+    
+    def _clean_url(self, url: str) -> str:
+        """
+        清理URL中的跟踪参数和无用参数
+        
+        保留的参数：无（清理所有查询参数）
+        移除的参数：utm_*, gclid, fbclid, srsltid, gbraid, gad_*, tw_*, 等
+        同时统一去除 www. 前缀（某些 Shopify 站点 www 和非 www 行为不同）
+        """
+        from urllib.parse import urlparse, urlunparse
+        
+        try:
+            parsed = urlparse(url)
+            
+            # 去除 www. 前缀，统一 URL 格式
+            netloc = parsed.netloc
+            if netloc.startswith('www.'):
+                netloc = netloc[4:]  # 去掉 'www.'
+            
+            # 重建URL，去掉所有查询参数和fragment
+            clean_url = urlunparse((
+                parsed.scheme or 'https',  # 默认使用 https
+                netloc,
+                parsed.path.rstrip('/'),  # 移除末尾斜杠
+                '',  # params
+                '',  # query (清空所有查询参数)
+                ''   # fragment
+            ))
+            return clean_url
+        except Exception as e:
+            logger.warning(f"URL清理失败: {e}，使用原始URL")
+            return url
     
     async def _fetch_via_api(self, url: str) -> Optional[Dict]:
         """
@@ -59,8 +96,13 @@ class ShopifyCrawler(BaseCrawler):
         优化：
         - 自动提取类目（从 URL 路径或页面包层）
         - 支持多种 API 端点格式
+        - 自动去除 www. 前缀（某些站点 www 和非 www 行为不同）
         """
         domain = self._extract_domain(url)
+        
+        # 去除 www. 前缀
+        if domain.startswith('www.'):
+            domain = domain[4:]
         
         # 尝试多个 API 端点
         api_urls = [
@@ -223,10 +265,15 @@ class ShopifyCrawler(BaseCrawler):
         - 从 URL 路径提取类目（如 /collections/necklaces）
         - 从页面包层提取类目名称
         - 去重逻辑
+        - 自动去除 www. 前缀
         """
         products = []
         seen_urls = set()
         domain = self._extract_domain(url)
+        
+        # 去除 www. 前缀
+        if domain.startswith('www.'):
+            domain = domain[4:]
         
         # 尝试从 URL 提取类目
         category_from_url = self._extract_category_from_url(url)

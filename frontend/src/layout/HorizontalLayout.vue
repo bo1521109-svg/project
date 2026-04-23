@@ -131,8 +131,18 @@
         <ShopifySidebar />
       </aside>
       
+      <!-- 左侧边栏（内容创作时显示） -->
+      <aside v-if="activeNav === 'content'" class="left-sidebar">
+        <ContentSidebar />
+      </aside>
+      
+      <!-- 左侧边栏（社媒管理时显示） -->
+      <aside v-if="activeNav === 'social'" class="left-sidebar">
+        <SocialSidebar />
+      </aside>
+      
       <!-- 右侧主内容区 -->
-      <div class="content-wrapper" :class="{ 'with-sidebar': activeNav === 'tiktok' || activeNav === 'shopify' }">
+      <div class="content-wrapper" :class="{ 'with-sidebar': activeNav === 'tiktok' || activeNav === 'shopify' || activeNav === 'content' || activeNav === 'social' }">
         <router-view />
       </div>
     </el-main>
@@ -174,6 +184,8 @@ import { useUserStore } from '../stores/user'
 import { getFilteredNav } from '../config/navigation.js'
 import TikTokSidebar from '../components/TikTok/sidebar.vue'
 import ShopifySidebar from '../components/Shopify/sidebar.vue'
+import ContentSidebar from '../components/Content/sidebar.vue'
+import SocialSidebar from '../components/Social/sidebar.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -204,6 +216,14 @@ const activeNav = computed(() => {
   // 独立站数据相关路径
   if (path.includes('/shopify')) {
     return 'shopify'
+  }
+  // 内容创作相关路径
+  if (path.includes('/content')) {
+    return 'content'
+  }
+  // 社媒管理相关路径
+  if (path.includes('/social')) {
+    return 'social'
   }
   return ''
 })

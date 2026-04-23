@@ -1,28 +1,28 @@
 """
-我的 - 我的收藏接口
+我的 - 我的创作接口（独立站和TikTok共用）
 """
 from fastapi import APIRouter
 
 router = APIRouter()
 
 @router.get("")
-async def get_my_favorites():
+async def get_my_creations():
     """
-    获取我的收藏列表
+    获取我的创作列表
     """
     return {
         "code": 200,
         "data": {
-            "favorites": []
+            "creations": []
         },
         "message": "功能开发中",
         "placeholder": True
     }
 
 @router.post("")
-async def add_favorite():
+async def create_content():
     """
-    添加收藏
+    创建内容
     """
     return {
         "code": 200,
@@ -31,10 +31,10 @@ async def add_favorite():
         "placeholder": True
     }
 
-@router.delete("/{favorite_id}")
-async def delete_favorite(favorite_id: int):
+@router.delete("/{creation_id}")
+async def delete_creation(creation_id: int):
     """
-    删除收藏
+    删除创作
     """
     return {
         "code": 200,

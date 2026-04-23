@@ -8,6 +8,7 @@ import Placeholder from '../views/Placeholder.vue'
 import UserManagement from '../views/admin/UserManagement.vue'
 import PermissionManagement from '../views/admin/PermissionManagement.vue'
 import LoginLogs from '../views/admin/LoginLogs.vue'
+import StoreSearch from '../views/shopify/StoreSearch.vue'
 import { useUserStore } from '../stores/user'
 
 const routes = [
@@ -43,6 +44,14 @@ const routes = [
         meta: { title: '个人中心', requiresAuth: true }
       },
 
+      // ========== 独立站数据 - 工作台 ==========
+      {
+        path: '/shopify/workbench',
+        name: 'ShopifyWorkbench',
+        component: Placeholder,
+        meta: { title: '工作台', requiresAuth: true, placeholder: true }
+      },
+
       // ========== 独立站数据 - 选爆品（复用 + 占位） ==========
       {
         path: '/shopify/products',
@@ -71,9 +80,9 @@ const routes = [
 
       // ========== 独立站数据 - 盯爆店（复用 + 占位） ==========
       {
-        path: '/shopify/stores',
-        name: 'ShopifyStores',
-        component: Stores,
+        path: '/shopify/stores/search',
+        name: 'ShopifyStoresSearch',
+        component: StoreSearch,
         meta: { title: '店铺搜索', requiresAuth: true, placeholder: false }
       },
       {
@@ -120,7 +129,21 @@ const routes = [
         path: '/shopify/ads/library',
         name: 'ShopifyAdsLibrary',
         component: Placeholder,
-        meta: { title: '广告库', requiresAuth: true, placeholder: true }
+        meta: { title: '广告搜索', requiresAuth: true, placeholder: true }
+      },
+
+      // ========== 独立站数据 - 视频（占位） ==========
+      {
+        path: '/shopify/videos/hot',
+        name: 'ShopifyVideosHot',
+        component: Placeholder,
+        meta: { title: '热门视频', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/shopify/videos/ai',
+        name: 'ShopifyVideosAi',
+        component: Placeholder,
+        meta: { title: 'AI话题', requiresAuth: true, placeholder: true }
       },
 
       // ========== TikTok 数据 - 数据大盘（占位） ==========
@@ -363,12 +386,20 @@ const routes = [
 
 
 
+      // ========== 内容创作 - 工作台（占位） ==========
+      {
+        path: '/content/workbench',
+        name: 'ContentWorkbench',
+        component: Placeholder,
+        meta: { title: '工作台', requiresAuth: true, placeholder: true }
+      },
+
       // ========== 内容创作 - 找创意（占位） ==========
       {
         path: '/content/creative/natural-flow',
         name: 'ContentCreativeNaturalFlow',
         component: Placeholder,
-        meta: { title: '自然流广告素材', requiresAuth: true, placeholder: true }
+        meta: { title: '自然流/广告素材', requiresAuth: true, placeholder: true }
       },
       {
         path: '/content/creative/viral-analysis',
@@ -380,7 +411,7 @@ const routes = [
         path: '/content/creative/selling-point',
         name: 'ContentCreativeSellingPoint',
         component: Placeholder,
-        meta: { title: '视频卖点宝抄', requiresAuth: true, placeholder: true }
+        meta: { title: '视频卖点呈现', requiresAuth: true, placeholder: true }
       },
 
       // ========== 内容创作 - AI 视频（占位） ==========
@@ -394,7 +425,7 @@ const routes = [
         path: '/content/ai-video/auto-clip',
         name: 'ContentAiVideoAutoClip',
         component: Placeholder,
-        meta: { title: '自动生成片片', requiresAuth: true, placeholder: true }
+        meta: { title: '自动生成样片', requiresAuth: true, placeholder: true }
       },
       {
         path: '/content/ai-video/clone',
@@ -408,7 +439,7 @@ const routes = [
         path: '/content/image-gen/product-main',
         name: 'ContentImageGenProductMain',
         component: Placeholder,
-        meta: { title: '炒做商品主图', requiresAuth: true, placeholder: true }
+        meta: { title: '妙做商品主图', requiresAuth: true, placeholder: true }
       },
       {
         path: '/content/image-gen/model-swap',
@@ -443,12 +474,26 @@ const routes = [
         meta: { title: '我的素材', requiresAuth: true, placeholder: true }
       },
 
+      // ========== 社媒管理 - 工作台（占位） ==========
+      {
+        path: '/social/workbench',
+        name: 'SocialWorkbench',
+        component: Placeholder,
+        meta: { title: '工作台', requiresAuth: true, placeholder: true }
+      },
+
       // ========== 社媒管理（占位） ==========
       {
         path: '/social',
-        redirect: '/social/platforms/facebook'
+        redirect: '/social/workbench'
       },
       // 社媒平台组
+      {
+        path: '/social/platforms/tiktok',
+        name: 'SocialPlatformTikTok',
+        component: Placeholder,
+        meta: { title: 'TikTok', requiresAuth: true, placeholder: true }
+      },
       {
         path: '/social/platforms/facebook',
         name: 'SocialPlatformFacebook',
@@ -462,10 +507,28 @@ const routes = [
         meta: { title: 'Instagram', requiresAuth: true, placeholder: true }
       },
       {
+        path: '/social/platforms/twitter',
+        name: 'SocialPlatformTwitter',
+        component: Placeholder,
+        meta: { title: 'Twitter/X', requiresAuth: true, placeholder: true }
+      },
+      {
         path: '/social/platforms/youtube',
         name: 'SocialPlatformYoutube',
         component: Placeholder,
         meta: { title: 'YouTube', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/social/platforms/pinterest',
+        name: 'SocialPlatformPinterest',
+        component: Placeholder,
+        meta: { title: 'Pinterest', requiresAuth: true, placeholder: true }
+      },
+      {
+        path: '/social/platforms/reddit',
+        name: 'SocialPlatformReddit',
+        component: Placeholder,
+        meta: { title: 'Reddit', requiresAuth: true, placeholder: true }
       },
       // 私域组
       {
@@ -596,7 +659,7 @@ const routes = [
       {
         path: '/admin/crawler/tasks',
         name: 'AdminCrawlerTasks',
-        component: Placeholder,
+        component: () => import('../views/admin/CrawlerTasks.vue'),
         meta: { title: '爬虫任务列表', requiresAuth: true, requiresAdmin: true }
       },
       {

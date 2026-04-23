@@ -5,7 +5,9 @@
       <!-- 平台选择器 -->
       <el-dropdown trigger="click" @command="handlePlatformChange" class="full-width-dropdown" popper-class="sidebar-dropdown-popper">
         <div class="selector-item">
-          <el-icon class="item-icon"><ShopifyIcon /></el-icon>
+          <el-icon class="item-icon" v-if="currentPlatformIconType === 'component' && currentPlatformIcon === 'shopify'"><ShopifyIcon /></el-icon>
+          <el-icon class="item-icon" v-else-if="currentPlatformIconType === 'component' && currentPlatformIcon === 'tiktok'"><TikTokIcon /></el-icon>
+          <span class="platform-emoji" v-else>{{ currentPlatformIcon }}</span>
           <span class="item-text">{{ currentPlatform }}</span>
           <el-icon class="arrow-icon"><ArrowDown /></el-icon>
         </div>
@@ -17,15 +19,66 @@
                 <span>Shopify</span>
               </div>
             </el-dropdown-item>
-            <el-dropdown-item command="WordPress">WordPress</el-dropdown-item>
-            <el-dropdown-item command="shopline">shopline</el-dropdown-item>
-            <el-dropdown-item command="Shoplazza/店匠">Shoplazza/店匠</el-dropdown-item>
-            <el-dropdown-item command="Shoppy">Shoppy</el-dropdown-item>
-            <el-dropdown-item command="Shopoem">Shopoem</el-dropdown-item>
-            <el-dropdown-item command="Shopbase">Shopbase</el-dropdown-item>
-            <el-dropdown-item command="Ueeshop">Ueeshop</el-dropdown-item>
-            <el-dropdown-item command="BigCommerce">BigCommerce</el-dropdown-item>
-            <el-dropdown-item command="WooCommerce">WooCommerce</el-dropdown-item>
+            <el-dropdown-item command="TikTok">
+              <div class="dropdown-item-with-icon">
+                <el-icon class="dropdown-icon"><TikTokIcon /></el-icon>
+                <span>TikTok</span>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="WordPress">
+              <div class="dropdown-item-with-icon">
+                <span class="platform-emoji">🌐</span>
+                <span>WordPress</span>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="shopline">
+              <div class="dropdown-item-with-icon">
+                <span class="platform-emoji">🛍️</span>
+                <span>shopline</span>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="Shoplazza/店匠">
+              <div class="dropdown-item-with-icon">
+                <span class="platform-emoji">🏪</span>
+                <span>Shoplazza/店匠</span>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="Shoppy">
+              <div class="dropdown-item-with-icon">
+                <span class="platform-emoji">🛒</span>
+                <span>Shoppy</span>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="Shopoem">
+              <div class="dropdown-item-with-icon">
+                <span class="platform-emoji">💼</span>
+                <span>Shopoem</span>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="Shopbase">
+              <div class="dropdown-item-with-icon">
+                <span class="platform-emoji">🏬</span>
+                <span>Shopbase</span>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="Ueeshop">
+              <div class="dropdown-item-with-icon">
+                <span class="platform-emoji">🏢</span>
+                <span>Ueeshop</span>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="BigCommerce">
+              <div class="dropdown-item-with-icon">
+                <span class="platform-emoji">🏭</span>
+                <span>BigCommerce</span>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="WooCommerce">
+              <div class="dropdown-item-with-icon">
+                <span class="platform-emoji">🔧</span>
+                <span>WooCommerce</span>
+              </div>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -48,6 +101,12 @@
           </el-dropdown-menu>
         </template>
       </el-dropdown>
+
+      <!-- 工作台按钮 -->
+      <div class="workbench-btn" @click="handleWorkbenchClick">
+        <el-icon class="workbench-icon"><Monitor /></el-icon>
+        <span class="workbench-text">工作台</span>
+      </div>
     </div>
 
     <!-- 中间间隙 -->
@@ -55,80 +114,83 @@
 
     <!-- 下方区域：导航菜单 -->
     <div class="sidebar-bottom">
-      <el-menu
-        :default-active="activeMenu"
-        class="sidebar-menu"
-        :unique-opened="true"
-        @select="handleMenuSelect"
-      >
-        <!-- 数据大盘 -->
-        <el-sub-menu index="dashboard">
-          <template #title>
-            <el-icon><Histogram /></el-icon>
-            <span>数据大盘</span>
-          </template>
-          <el-menu-item index="/shopify/category/overview">品类大盘</el-menu-item>
-          <el-menu-item index="/shopify/product/overview">商品大盘</el-menu-item>
-          <el-menu-item index="/shopify/store/overview">店铺大盘</el-menu-item>
-        </el-sub-menu>
+      <div class="sidebar-menu-wrapper">
+        <el-menu
+          :default-active="activeMenu"
+          class="sidebar-menu"
+          :unique-opened="true"
+          @select="handleMenuSelect"
+        >
+          <!-- 数据大盘 -->
+          <el-sub-menu index="dashboard">
+            <template #title>
+              <el-icon><Histogram /></el-icon>
+              <span>数据大盘</span>
+            </template>
+            <el-menu-item index="/shopify/category/overview">品类大盘</el-menu-item>
+            <el-menu-item index="/shopify/product/overview">商品大盘</el-menu-item>
+            <el-menu-item index="/shopify/store/overview">店铺大盘</el-menu-item>
+            <el-menu-item index="/shopify/ai-report">AI报告</el-menu-item>
+          </el-sub-menu>
 
-        <!-- 商品 -->
-        <el-sub-menu index="products">
-          <template #title>
-            <el-icon><ShoppingBag /></el-icon>
-            <span>商品</span>
-          </template>
-          <el-menu-item index="/shopify/products">商品搜索</el-menu-item>
-          <el-menu-item index="/shopify/products/sales-rank">销量榜</el-menu-item>
-          <el-menu-item index="/shopify/products/surge-rank">热推榜</el-menu-item>
-          <el-menu-item index="/shopify/products/potential-new">新品榜</el-menu-item>
-          <el-menu-item index="shopify-products-history">历史同期榜</el-menu-item>
-        </el-sub-menu>
+          <!-- 商品 -->
+          <el-sub-menu index="products">
+            <template #title>
+              <el-icon><ShoppingBag /></el-icon>
+              <span>商品</span>
+            </template>
+            <el-menu-item index="/shopify/products">商品搜索</el-menu-item>
+            <el-menu-item index="/shopify/products/sales-rank">销量榜</el-menu-item>
+            <el-menu-item index="/shopify/products/surge-rank">热推榜</el-menu-item>
+            <el-menu-item index="/shopify/products/potential-new">新品榜</el-menu-item>
+            <el-menu-item index="shopify-products-history">历史同期榜</el-menu-item>
+          </el-sub-menu>
 
-        <!-- 店铺 -->
-        <el-sub-menu index="stores">
-          <template #title>
-            <el-icon><Shop /></el-icon>
-            <span>店铺</span>
-          </template>
-          <el-menu-item index="/shopify/stores">店铺搜索</el-menu-item>
-          <el-menu-item index="/shopify/stores/best-sellers">销量榜</el-menu-item>
-          <el-menu-item index="/shopify/stores/surge-rank">热推榜</el-menu-item>
-        </el-sub-menu>
+          <!-- 店铺 -->
+          <el-sub-menu index="stores">
+            <template #title>
+              <el-icon><Shop /></el-icon>
+              <span>店铺</span>
+            </template>
+            <el-menu-item index="/shopify/stores/search">店铺搜索</el-menu-item>
+            <el-menu-item index="/shopify/stores/best-sellers">销量榜</el-menu-item>
+            <el-menu-item index="/shopify/stores/surge-rank">热推榜</el-menu-item>
+          </el-sub-menu>
 
-        <!-- 视频 -->
-        <el-sub-menu index="videos">
-          <template #title>
-            <el-icon><VideoIcon /></el-icon>
-            <span>视频</span>
-          </template>
-          <el-menu-item index="shopify-videos-hot">热门视频</el-menu-item>
-          <el-menu-item index="shopify-videos-ai">AI话题</el-menu-item>
-        </el-sub-menu>
+          <!-- 视频 -->
+          <el-sub-menu index="videos">
+            <template #title>
+              <el-icon><VideoIcon /></el-icon>
+              <span>视频</span>
+            </template>
+            <el-menu-item index="/shopify/videos/hot">热门视频</el-menu-item>
+            <el-menu-item index="/shopify/videos/ai">AI话题</el-menu-item>
+          </el-sub-menu>
 
-        <!-- 广告 -->
-        <el-sub-menu index="ads">
-          <template #title>
-            <el-icon><AdIcon /></el-icon>
-            <span>广告</span>
-          </template>
-          <el-menu-item index="/shopify/ads/library">广告搜索</el-menu-item>
-        </el-sub-menu>
-      </el-menu>
+          <!-- 广告 -->
+          <el-sub-menu index="ads">
+            <template #title>
+              <el-icon><AdIcon /></el-icon>
+              <span>广告</span>
+            </template>
+            <el-menu-item index="/shopify/ads/library">广告搜索</el-menu-item>
+          </el-sub-menu>
 
-      <!-- 购买续费 -->
-      <div class="menu-item-btn" @click="handleMenuSelect('/purchase')">
-        <el-icon class="menu-item-icon"><CreditCard /></el-icon>
-        <span class="menu-item-text">购买续费</span>
+          <!-- 我的 -->
+          <el-sub-menu index="my">
+            <template #title>
+              <el-icon><Star /></el-icon>
+              <span>我的</span>
+            </template>
+            <el-menu-item index="/my/favorites">我的收藏</el-menu-item>
+            <el-menu-item index="/my/creations">我的创作</el-menu-item>
+            <el-menu-item index="/purchase">购买续费</el-menu-item>
+            <el-menu-item index="/profile">账户中心</el-menu-item>
+          </el-sub-menu>
+        </el-menu>
       </div>
 
-      <!-- 账户中心 -->
-      <div class="menu-item-btn" @click="handleMenuSelect('/profile')">
-        <el-icon class="menu-item-icon"><Setting /></el-icon>
-        <span class="menu-item-text">账户中心</span>
-      </div>
-
-      <!-- 底部图片 -->
+      <!-- 底部图片 - 固定在底部 -->
       <div class="sidebar-image">
         <img src="/img_8448.jpg" alt="底部图片" />
       </div>
@@ -145,11 +207,14 @@ import {
   ShoppingBag,
   Shop,
   CreditCard,
-  Setting
+  Setting,
+  Monitor,
+  Star
 } from '@element-plus/icons-vue'
 import AdIcon from '../icons/AdIcon.vue'
 import VideoIcon from '../icons/VideoIcon.vue'
 import ShopifyIcon from '../icons/ShopifyIcon.vue'
+import TikTokIcon from '../icons/TikTokIcon.vue'
 
 const router = useRouter()
 const activeMenu = ref('dashboard')
@@ -159,6 +224,31 @@ const currentPlatform = ref('Shopify')
 
 // 当前选中的地区
 const currentRegion = ref('欧美')
+
+// 平台与图标的映射
+const platformIcons = {
+  'Shopify': 'shopify',
+  'TikTok': 'tiktok',
+  'WordPress': '🌐',
+  'shopline': '🛍️',
+  'Shoplazza/店匠': '🏪',
+  'Shoppy': '🛒',
+  'Shopoem': '💼',
+  'Shopbase': '🏬',
+  'Ueeshop': '🏢',
+  'BigCommerce': '🏭',
+  'WooCommerce': '🔧'
+}
+
+// 当前平台的图标类型
+const currentPlatformIconType = computed(() => {
+  return platformIcons[currentPlatform.value] === 'shopify' ? 'component' : 'emoji'
+})
+
+// 当前平台的图标
+const currentPlatformIcon = computed(() => {
+  return platformIcons[currentPlatform.value] || '🛍️'
+})
 
 // 地区与图标的映射
 const regionFlags = {
@@ -179,12 +269,22 @@ const currentRegionFlag = computed(() => {
 const handlePlatformChange = (platform) => {
   currentPlatform.value = platform
   console.log('切换平台:', platform)
+  
+  // 切换到TikTok时跳转到TikTok出海探索页面
+  if (platform === 'TikTok') {
+    router.push('/overseas/explore')
+  }
 }
 
 // 处理地区切换
 const handleRegionChange = (region) => {
   currentRegion.value = region
   console.log('切换地区:', region)
+}
+
+// 处理工作台点击
+const handleWorkbenchClick = () => {
+  router.push('/shopify/workbench')
 }
 
 // 处理菜单选择
@@ -251,6 +351,11 @@ const handleMenuSelect = (index) => {
   font-size: 16px;
   margin-right: 6px;
   color: #303133;
+}
+
+.platform-emoji {
+  font-size: 16px;
+  margin-right: 6px;
 }
 
 .region-flag {
@@ -324,8 +429,28 @@ const handleMenuSelect = (index) => {
   border-radius: 12px;
   padding: 6px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  overflow-y: auto;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 菜单包装器 - 可滚动区域 */
+.sidebar-menu-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 6px;
+}
+
+/* 隐藏菜单包装器的滚动条 */
+.sidebar-menu-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-menu-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .sidebar-menu {
@@ -421,28 +546,51 @@ const handleMenuSelect = (index) => {
   color: #8b5cf6;
 }
 
-/* 隐藏滚动条 */
-.sidebar-bottom::-webkit-scrollbar {
-  display: none;
-}
-
-.sidebar-bottom {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* 底部图片样式 */
+/* 底部图片样式 - 固定在底部 */
 .sidebar-image {
   margin-top: 10px;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
 
 .sidebar-image img {
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* 工作台按钮样式 */
+.workbench-btn {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  min-height: 32px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.workbench-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.workbench-icon {
+  font-size: 16px;
+  margin-right: 6px;
+  color: #ffffff;
+}
+
+.workbench-text {
+  flex: 1;
+  font-size: 13px;
+  color: #ffffff;
+  font-weight: 500;
 }
 
 /* 下拉菜单项图标样式 */
@@ -455,6 +603,16 @@ const handleMenuSelect = (index) => {
 .dropdown-icon {
   font-size: 16px;
   flex-shrink: 0;
+}
+
+.platform-emoji {
+  font-size: 16px;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
 

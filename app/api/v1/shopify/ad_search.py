@@ -1,14 +1,14 @@
 """
-广告库模块（占位）
+广告搜索模块（占位）
 """
 from fastapi import APIRouter
 
 router = APIRouter()
 
 @router.get("")
-async def ad_library():
+async def ad_search():
     """
-    广告库接口（占位）
+    广告搜索接口（占位）
     """
     return {
         "code": 200,

@@ -74,141 +74,133 @@
 
     <!-- 下方区域：导航菜单 -->
     <div class="sidebar-bottom">
-      <el-menu
-        :default-active="activeMenu"
-        class="sidebar-menu"
-        :unique-opened="true"
-        @select="handleMenuSelect"
-      >
-        <!-- 数据大盘 -->
-        <el-sub-menu index="dashboard">
-          <template #title>
-            <el-icon><Histogram /></el-icon>
-            <span>数据大盘</span>
-          </template>
-          <el-menu-item index="/tiktok/category/overview">品类大盘</el-menu-item>
-          <el-menu-item index="/tiktok/product/overview">商品大盘</el-menu-item>
-          <el-menu-item index="/tiktok/store/overview">店铺大盘</el-menu-item>
-        </el-sub-menu>
+      <div class="sidebar-menu-wrapper">
+        <el-menu
+          :default-active="activeMenu"
+          class="sidebar-menu"
+          :unique-opened="true"
+          @select="handleMenuSelect"
+        >
+          <!-- 数据大盘 -->
+          <el-sub-menu index="dashboard">
+            <template #title>
+              <el-icon><Histogram /></el-icon>
+              <span>数据大盘</span>
+            </template>
+            <el-menu-item index="/tiktok/category/overview">品类大盘</el-menu-item>
+            <el-menu-item index="/tiktok/product/overview">商品大盘</el-menu-item>
+            <el-menu-item index="/tiktok/store/overview">店铺大盘</el-menu-item>
+          </el-sub-menu>
 
-        <!-- 商品 -->
-        <el-sub-menu index="products">
-          <template #title>
-            <el-icon><ShoppingBag /></el-icon>
-            <span>商品</span>
-          </template>
-          <el-menu-item index="/tiktok/products">商品搜索</el-menu-item>
-          <el-menu-item index="/tiktok/products/sales-rank">销量榜</el-menu-item>
-          <el-menu-item index="/tiktok/products/surge-rank">热推榜</el-menu-item>
-          <el-menu-item index="/tiktok/products/potential-new">新品榜</el-menu-item>
-          <el-menu-item index="/tiktok/products/history-rank">历史同期榜</el-menu-item>
-          <el-menu-item index="/tiktok/products/amazon-search">亚马逊搜索</el-menu-item>
-          <el-menu-item index="/tiktok/products/tiktok-search">TikTok搜索</el-menu-item>
-        </el-sub-menu>
+          <!-- 商品 -->
+          <el-sub-menu index="products">
+            <template #title>
+              <el-icon><ShoppingBag /></el-icon>
+              <span>商品</span>
+            </template>
+            <el-menu-item index="/tiktok/products">商品搜索</el-menu-item>
+            <el-menu-item index="/tiktok/products/sales-rank">销量榜</el-menu-item>
+            <el-menu-item index="/tiktok/products/surge-rank">热推榜</el-menu-item>
+            <el-menu-item index="/tiktok/products/potential-new">新品榜</el-menu-item>
+            <el-menu-item index="/tiktok/products/history-rank">历史同期榜</el-menu-item>
+            <el-menu-item index="/tiktok/products/amazon-search">亚马逊搜索</el-menu-item>
+            <el-menu-item index="/tiktok/products/tiktok-search">TikTok搜索</el-menu-item>
+          </el-sub-menu>
 
-        <!-- 店铺 -->
-        <el-sub-menu index="stores">
-          <template #title>
-            <el-icon><Shop /></el-icon>
-            <span>店铺</span>
-          </template>
-          <el-menu-item index="/tiktok/stores">店铺搜索</el-menu-item>
-          <el-menu-item index="/tiktok/stores/best-sellers">销量榜</el-menu-item>
-          <el-menu-item index="/tiktok/stores/surge-rank">热推榜</el-menu-item>
-        </el-sub-menu>
+          <!-- 店铺 -->
+          <el-sub-menu index="stores">
+            <template #title>
+              <el-icon><Shop /></el-icon>
+              <span>店铺</span>
+            </template>
+            <el-menu-item index="/tiktok/stores">店铺搜索</el-menu-item>
+            <el-menu-item index="/tiktok/stores/best-sellers">销量榜</el-menu-item>
+            <el-menu-item index="/tiktok/stores/surge-rank">热推榜</el-menu-item>
+          </el-sub-menu>
 
-        <!-- 达人 -->
-        <el-sub-menu index="influencers">
-          <template #title>
-            <el-icon><User /></el-icon>
-            <span>达人</span>
-          </template>
-          <el-menu-item index="/tiktok/influencers">达人搜索</el-menu-item>
-          <el-menu-item index="/tiktok/influencers/sales-rank">带货达人榜</el-menu-item>
-          <el-menu-item index="/tiktok/influencers/follower-rank">涨粉达人榜</el-menu-item>
-          <el-menu-item index="/tiktok/influencers/agency-rank">达人机构榜</el-menu-item>
-        </el-sub-menu>
+          <!-- 达人 -->
+          <el-sub-menu index="influencers">
+            <template #title>
+              <el-icon><User /></el-icon>
+              <span>达人</span>
+            </template>
+            <el-menu-item index="/tiktok/influencers">达人搜索</el-menu-item>
+            <el-menu-item index="/tiktok/influencers/sales-rank">带货达人榜</el-menu-item>
+            <el-menu-item index="/tiktok/influencers/follower-rank">涨粉达人榜</el-menu-item>
+            <el-menu-item index="/tiktok/influencers/agency-rank">达人机构榜</el-menu-item>
+          </el-sub-menu>
 
-        <!-- 内容 -->
-        <el-sub-menu index="content">
-          <template #title>
-            <el-icon><VideoIcon /></el-icon>
-            <span>内容</span>
-          </template>
-          <el-menu-item index="/tiktok/videos">视频搜索</el-menu-item>
-          <el-menu-item index="/tiktok/videos/ai">AI视频</el-menu-item>
-          <el-menu-item index="/tiktok/ads/search">广告搜索</el-menu-item>
-          <el-menu-item index="/tiktok/live/search">直播搜索</el-menu-item>
-        </el-sub-menu>
-      </el-menu>
+          <!-- 内容 -->
+          <el-sub-menu index="content">
+            <template #title>
+              <el-icon><VideoIcon /></el-icon>
+              <span>内容</span>
+            </template>
+            <el-menu-item index="/tiktok/videos">视频搜索</el-menu-item>
+            <el-menu-item index="/tiktok/videos/ai">AI视频</el-menu-item>
+            <el-menu-item index="/tiktok/ads/search">广告搜索</el-menu-item>
+            <el-menu-item index="/tiktok/live/search">直播搜索</el-menu-item>
+          </el-sub-menu>
+        </el-menu>
 
-      <!-- 外贸 -->
-      <el-menu
-        :default-active="activeMenu"
-        class="sidebar-menu"
-        :unique-opened="true"
-        @select="handleMenuSelect"
-      >
-        <el-sub-menu index="trade">
-          <template #title>
-            <el-icon><Ship /></el-icon>
-            <span>外贸</span>
-          </template>
-          <el-menu-item index="/trade/region">区域</el-menu-item>
-          <el-menu-item index="/trade/product">产品</el-menu-item>
-        </el-sub-menu>
-      </el-menu>
+        <!-- 外贸 -->
+        <el-menu
+          :default-active="activeMenu"
+          class="sidebar-menu"
+          :unique-opened="true"
+          @select="handleMenuSelect"
+        >
+          <el-sub-menu index="trade">
+            <template #title>
+              <el-icon><Ship /></el-icon>
+              <span>外贸</span>
+            </template>
+            <el-menu-item index="/trade/region">区域</el-menu-item>
+            <el-menu-item index="/trade/product">产品</el-menu-item>
+          </el-sub-menu>
+        </el-menu>
 
-      <!-- 服务商 -->
-      <el-menu
-        :default-active="activeMenu"
-        class="sidebar-menu"
-        :unique-opened="true"
-        @select="handleMenuSelect"
-      >
-        <el-sub-menu index="service-provider">
-          <template #title>
-            <el-icon><Service /></el-icon>
-            <span>服务商</span>
-          </template>
-          <el-menu-item index="/service/logistics">国际物流</el-menu-item>
-          <el-menu-item index="/service/warehouse">海外仓</el-menu-item>
-          <el-menu-item index="/service/qualification">资质办理</el-menu-item>
-          <el-menu-item index="/service/factory">海外工厂</el-menu-item>
-          <el-menu-item index="/service/influencer">达人对接</el-menu-item>
-        </el-sub-menu>
-      </el-menu>
+        <!-- 服务商 -->
+        <el-menu
+          :default-active="activeMenu"
+          class="sidebar-menu"
+          :unique-opened="true"
+          @select="handleMenuSelect"
+        >
+          <el-sub-menu index="service-provider">
+            <template #title>
+              <el-icon><Service /></el-icon>
+              <span>服务商</span>
+            </template>
+            <el-menu-item index="/service/logistics">国际物流</el-menu-item>
+            <el-menu-item index="/service/warehouse">海外仓</el-menu-item>
+            <el-menu-item index="/service/qualification">资质办理</el-menu-item>
+            <el-menu-item index="/service/factory">海外工厂</el-menu-item>
+            <el-menu-item index="/service/influencer">达人对接</el-menu-item>
+          </el-sub-menu>
+        </el-menu>
 
-      <el-menu
-        :default-active="activeMenu"
-        class="sidebar-menu"
-        :unique-opened="true"
-        @select="handleMenuSelect"
-      >
-        <!-- 我的 -->
-        <el-sub-menu index="my">
-          <template #title>
-            <el-icon><Star /></el-icon>
-            <span>我的</span>
-          </template>
-          <el-menu-item index="/my/favorites">我的收藏</el-menu-item>
-          <el-menu-item index="/my/creations">我的创作</el-menu-item>
-        </el-sub-menu>
-      </el-menu>
-
-      <!-- 购买续费 -->
-      <div class="menu-item-btn" @click="handleMenuSelect('/purchase')">
-        <el-icon class="menu-item-icon"><CreditCard /></el-icon>
-        <span class="menu-item-text">购买续费</span>
+        <el-menu
+          :default-active="activeMenu"
+          class="sidebar-menu"
+          :unique-opened="true"
+          @select="handleMenuSelect"
+        >
+          <!-- 我的 -->
+          <el-sub-menu index="my">
+            <template #title>
+              <el-icon><Star /></el-icon>
+              <span>我的</span>
+            </template>
+            <el-menu-item index="/my/favorites">我的收藏</el-menu-item>
+            <el-menu-item index="/my/creations">我的创作</el-menu-item>
+            <el-menu-item index="/purchase">购买续费</el-menu-item>
+            <el-menu-item index="/profile">账户中心</el-menu-item>
+          </el-sub-menu>
+        </el-menu>
       </div>
 
-      <!-- 账户中心 -->
-      <div class="menu-item-btn" @click="handleMenuSelect('/profile')">
-        <el-icon class="menu-item-icon"><Setting /></el-icon>
-        <span class="menu-item-text">账户中心</span>
-      </div>
-
-      <!-- 底部图片 -->
+      <!-- 底部图片 - 固定在底部 -->
       <div class="sidebar-image">
         <img src="/img_8448.jpg" alt="底部图片" />
       </div>
@@ -279,6 +271,11 @@ const currentCountryFlag = computed(() => {
 const handlePlatformChange = (platform) => {
   currentPlatform.value = platform
   console.log('切换平台:', platform)
+  
+  // 切换到独立站时跳转到独立站工作台
+  if (platform === '独立站') {
+    router.push('/shopify/workbench')
+  }
 }
 
 // 处理国家切换
@@ -503,8 +500,28 @@ const handleExploreClick = () => {
   border-radius: 12px;
   padding: 6px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  overflow-y: auto;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 菜单包装器 - 可滚动区域 */
+.sidebar-menu-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 6px;
+}
+
+/* 隐藏菜单包装器的滚动条 */
+.sidebar-menu-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-menu-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .sidebar-menu {
@@ -613,22 +630,13 @@ const handleExploreClick = () => {
   color: #8b5cf6;
 }
 
-/* 隐藏滚动条 */
-.sidebar-bottom::-webkit-scrollbar {
-  display: none;
-}
-
-.sidebar-bottom {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-/* 底部图片样式 */
+/* 底部图片样式 - 固定在底部 */
 .sidebar-image {
   margin-top: 10px;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
 
 .sidebar-image img {

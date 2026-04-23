@@ -108,7 +108,7 @@ const total = ref(0)
 // 获取店铺列表（用于筛选）
 const fetchStores = async () => {
   try {
-    const response = await request.get('/v1/stores/')
+    const response = await request.get('/v1/admin/crawler/tasks')
     stores.value = response.data
   } catch (error) {
     console.error('获取店铺列表失败', error)

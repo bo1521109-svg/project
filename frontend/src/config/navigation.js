@@ -121,46 +121,16 @@ export const navigationConfig = [
   // 一级导航：独立站数据
   {
     name: '独立站数据',
-    path: '/shopify',
+    path: '/shopify/workbench',
     icon: 'Shop',
     children: [
       {
-        // 二级导航：大卡片
-        card: {
-          title: '选爆品',
-          desc: '发现热销商品',
-          icon: 'ShoppingCart'
-        },
-        // 三级导航：下方链接
-        links: [
-          { name: '商品搜索', path: '/shopify/products', placeholder: false },
-          { name: '商品销量榜', path: '/shopify/products/sales-rank', placeholder: true },
-          { name: '商品飙升榜', path: '/shopify/products/surge-rank', placeholder: true },
-          { name: '潜力新品榜', path: '/shopify/products/potential-new', placeholder: true }
-        ]
-      },
-      {
-        // 二级导航：大卡片
-        card: {
-          title: '盯爆店',
-          desc: '追踪热门店铺',
-          icon: 'Shop'
-        },
-        // 三级导航：下方链接
-        links: [
-          { name: '店铺搜索', path: '/shopify/stores', placeholder: false },
-          { name: '店铺爆卖榜', path: '/shopify/stores/best-sellers', placeholder: true },
-          { name: '店铺飙升榜', path: '/shopify/stores/surge-rank', placeholder: true }
-        ]
-      },
-      {
-        // 二级导航：大卡片
+        // 第 1 列：数据大盘
         card: {
           title: '数据大盘',
           desc: '全局数据概览',
           icon: 'DataAnalysis'
         },
-        // 三级导航：下方链接
         links: [
           { name: '品类大盘', path: '/shopify/category/overview', placeholder: true },
           { name: '商品大盘', path: '/shopify/product/overview', placeholder: true },
@@ -169,15 +139,41 @@ export const navigationConfig = [
         ]
       },
       {
-        // 二级导航：大卡片
+        // 第 2 列：选爆品
+        card: {
+          title: '选爆品',
+          desc: '发现热销商品',
+          icon: 'ShoppingCart'
+        },
+        links: [
+          { name: '商品搜索', path: '/shopify/products', placeholder: false },
+          { name: '商品销量榜', path: '/shopify/products/sales-rank', placeholder: true },
+          { name: '商品飙升榜', path: '/shopify/products/surge-rank', placeholder: true },
+          { name: '潜力新品榜', path: '/shopify/products/potential-new', placeholder: true }
+        ]
+      },
+      {
+        // 第 3 列：盯爆店
+        card: {
+          title: '盯爆店',
+          desc: '追踪热门店铺',
+          icon: 'Shop'
+        },
+        links: [
+          { name: '店铺搜索', path: '/shopify/stores/search', placeholder: false },
+          { name: '店铺爆卖榜', path: '/shopify/stores/best-sellers', placeholder: true },
+          { name: '店铺飙升榜', path: '/shopify/stores/surge-rank', placeholder: true }
+        ]
+      },
+      {
+        // 第 4 列：找广告
         card: {
           title: '找广告',
           desc: '广告素材库',
           icon: 'Picture'
         },
-        // 三级导航：下方链接
         links: [
-          { name: '广告库', path: '/shopify/ads/library', placeholder: true }
+          { name: '广告搜索', path: '/shopify/ads/library', placeholder: true }
         ]
       }
     ]
@@ -186,7 +182,7 @@ export const navigationConfig = [
   // 一级导航：内容制作
   {
     name: '内容创作',
-    path: '/content',
+    path: '/content/workbench',
     icon: 'Edit',
     children: [
       {
@@ -197,9 +193,9 @@ export const navigationConfig = [
           icon: 'Lightning'
         },
         links: [
-          { name: '自然流广告素材', path: '/content/creative/natural-flow' },
+          { name: '自然流/广告素材', path: '/content/creative/natural-flow' },
           { name: '爆款视频分析', path: '/content/creative/viral-analysis' },
-          { name: '视频卖点宝抄', path: '/content/creative/selling-point' },
+          { name: '视频卖点呈现', path: '/content/creative/selling-point' },
           { name: '', path: '', isBlank: true }
         ]
       },
@@ -212,7 +208,7 @@ export const navigationConfig = [
         },
         links: [
           { name: 'Seedance2.0/Sora2', path: '/content/ai-video/seedance' },
-          { name: '自动生成片片', path: '/content/ai-video/auto-clip' },
+          { name: '自动生成样片', path: '/content/ai-video/auto-clip' },
           { name: '一键克隆视频', path: '/content/ai-video/clone' },
           { name: '', path: '', isBlank: true }
         ]
@@ -225,7 +221,7 @@ export const navigationConfig = [
           icon: 'Picture'
         },
         links: [
-          { name: '炒做商品主图', path: '/content/image-gen/product-main' },
+          { name: '妙做商品主图', path: '/content/image-gen/product-main' },
           { name: '一键模特换衣', path: '/content/image-gen/model-swap' },
           { name: 'AI 模特手持图', path: '/content/image-gen/model-hold' },
           { name: '', path: '', isBlank: true }
@@ -256,17 +252,17 @@ export const navigationConfig = [
   // 一级导航：社媒管理
   {
     name: '社媒管理',
-    path: '/social',
+    path: '/social/workbench',
     icon: 'ChatDotRound',
     children: [
       {
         // 第 1 列：社媒平台
-        card: { title: '社媒平台', desc: '主流社交平台', icon: 'Globe' },
+        card: { title: '社媒平台', desc: '主流社交平台', icon: 'Connection' },
         links: [
+          { name: 'TikTok', path: '/social/platforms/tiktok' },
           { name: 'Facebook', path: '/social/platforms/facebook' },
           { name: 'Instagram', path: '/social/platforms/instagram' },
-          { name: 'YouTube', path: '/social/platforms/youtube' },
-          { isBlank: true }
+          { name: 'YouTube', path: '/social/platforms/youtube' }
         ]
       },
       {
