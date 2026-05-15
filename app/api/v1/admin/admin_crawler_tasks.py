@@ -20,6 +20,8 @@ class CrawlerTaskCreate(BaseModel):
     url: str
     platform: str = "shopify"
     country: Optional[str] = None
+    target_country_code: Optional[str] = None  # 新增：任务配置-目标国家代码
+    target_category_code: Optional[str] = None  # 新增：任务配置-目标类目代码
 
 
 class CrawlerTaskResponse(BaseModel):
@@ -29,6 +31,9 @@ class CrawlerTaskResponse(BaseModel):
     url: str
     platform: str
     country: Optional[str] = None
+    target_country_code: Optional[str] = None  # 新增：任务配置-目标国家代码
+    target_category_code: Optional[str] = None  # 新增：任务配置-目标类目代码
+    is_manual_reviewed: bool = False  # 新增：是否人工复核过
     status: str
     last_crawl_at: Optional[datetime] = None
     is_crawling: bool = False
@@ -69,7 +74,10 @@ async def create_crawler_task(
         url=task.url,
         platform=task.platform,
         country=task.country,
-        status="active"
+        target_country_code=task.target_country_code,  # 新增：任务配置
+        target_category_code=task.target_category_code,  # 新增：任务配置
+        status="active",
+        data_source="task_config"  # 标记数据来源为任务配置
     )
     
     db.add(new_task)

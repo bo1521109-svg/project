@@ -203,6 +203,23 @@ onMounted(() => {
 
 <style scoped>
 .stores-container {
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.stores-container .el-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  border: none;
+}
+
+.stores-container :deep(.el-card__body) {
+  flex: 1;
+  overflow: hidden;
   padding: 20px;
 }
 
@@ -215,6 +232,7 @@ onMounted(() => {
 .table-container {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  height: 100%;
 }
 
 :deep(.el-table) {
@@ -223,7 +241,7 @@ onMounted(() => {
 
 /* 移动端优化 */
 @media (max-width: 768px) {
-  .stores-container {
+  .stores-container :deep(.el-card__body) {
     padding: 10px;
   }
 

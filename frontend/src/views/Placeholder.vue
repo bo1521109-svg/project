@@ -35,11 +35,15 @@ const contactAdmin = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
-  padding: 40px;
+  height: 100%;
+  padding: 0;
+  background: #f5f7fa;
 }
 
 .el-empty {
-  padding: 60px 0;
+  padding: 60px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 </style>

@@ -12,16 +12,16 @@
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="独立站">
-              <div class="dropdown-item-with-icon">
-                <el-icon class="dropdown-icon"><ShopifyIcon /></el-icon>
-                <span>独立站</span>
-              </div>
-            </el-dropdown-item>
             <el-dropdown-item command="TikTok">
               <div class="dropdown-item-with-icon">
                 <el-icon class="dropdown-icon"><TikTokIcon /></el-icon>
                 <span>TikTok</span>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="独立站">
+              <div class="dropdown-item-with-icon">
+                <el-icon class="dropdown-icon"><ShopifyIcon /></el-icon>
+                <span>独立站</span>
               </div>
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -199,11 +199,6 @@
           </el-sub-menu>
         </el-menu>
       </div>
-
-      <!-- 底部图片 - 固定在底部 -->
-      <div class="sidebar-image">
-        <img src="/img_8448.jpg" alt="底部图片" />
-      </div>
     </div>
   </div>
 </template>
@@ -272,9 +267,9 @@ const handlePlatformChange = (platform) => {
   currentPlatform.value = platform
   console.log('切换平台:', platform)
   
-  // 切换到独立站时跳转到独立站工作台
+  // 切换到独立站时跳转到独立站店铺搜索
   if (platform === '独立站') {
-    router.push('/shopify/workbench')
+    router.push('/shopify/stores/search')
   }
 }
 
@@ -312,23 +307,24 @@ const handleExploreClick = () => {
 .tiktok-sidebar {
   width: 100%;
   height: 100%;
-  padding: 10px;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  background: #f0f2f5;
+  background: #ffffff;
   box-sizing: border-box;
 }
 
 /* 上方区域 */
 .sidebar-top {
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 0;
   padding: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   gap: 8px;
   box-sizing: border-box;
+  border-bottom: 1px solid #e4e7ed;
 }
 
 /* 下拉框占满宽度 */
@@ -489,7 +485,7 @@ const handleExploreClick = () => {
 
 /* 中间间隙 */
 .sidebar-gap {
-  height: 10px;
+  height: 0;
   flex-shrink: 0;
 }
 
@@ -497,9 +493,9 @@ const handleExploreClick = () => {
 .sidebar-bottom {
   flex: 1;
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 0;
   padding: 6px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -628,21 +624,6 @@ const handleExploreClick = () => {
 .sidebar-menu .el-sub-menu .el-menu-item:hover {
   background-color: #f5f7fa;
   color: #8b5cf6;
-}
-
-/* 底部图片样式 - 固定在底部 */
-.sidebar-image {
-  margin-top: 10px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
-}
-
-.sidebar-image img {
-  width: 100%;
-  height: auto;
-  display: block;
 }
 
 /* 下拉菜单宽度优化 */

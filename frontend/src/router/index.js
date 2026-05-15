@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HorizontalLayout from '../layout/HorizontalLayout.vue'
+import VerticalLayout from '../layout/VerticalLayout.vue'
 import Stores from '../views/Stores.vue'
 import Products from '../views/Products.vue'
 import Profile from '../views/Profile.vue'
@@ -9,6 +9,8 @@ import UserManagement from '../views/admin/UserManagement.vue'
 import PermissionManagement from '../views/admin/PermissionManagement.vue'
 import LoginLogs from '../views/admin/LoginLogs.vue'
 import StoreSearch from '../views/shopify/StoreSearch.vue'
+import TikTokStoreSearch from '../views/tiktok/StoreSearch.vue'
+import TikTokProductSearch from '../views/tiktok/ProductSearch.vue'
 import { useUserStore } from '../stores/user'
 
 const routes = [
@@ -20,8 +22,8 @@ const routes = [
   },
   {
     path: '/',
-    component: HorizontalLayout,
-    redirect: '/stores',
+    component: VerticalLayout,
+    redirect: '/overseas/explore',
     meta: { requiresAuth: true }, // 需要登录
     children: [
       // ========== 独立站数据（已开发） ==========
@@ -176,8 +178,8 @@ const routes = [
       {
         path: '/tiktok/products',
         name: 'TikTokProducts',
-        component: Placeholder,
-        meta: { title: '商品搜索', requiresAuth: true, placeholder: true }
+        component: TikTokProductSearch,
+        meta: { title: '商品搜索', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/products/sales-rank',
@@ -220,8 +222,8 @@ const routes = [
       {
         path: '/tiktok/stores',
         name: 'TikTokStores',
-        component: Placeholder,
-        meta: { title: '店铺搜索', requiresAuth: true, placeholder: true }
+        component: TikTokStoreSearch,
+        meta: { title: '店铺搜索', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/stores/best-sellers',

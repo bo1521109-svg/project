@@ -16,7 +16,27 @@ class ShopifyCrawler(BaseCrawler):
     2. 自动提取类目信息
     3. 去重逻辑（基于 URL）
     4. 异常处理优化
+    5. 任务配置驱动：读取任务配置的"目标国家"和"目标类目"，自动打标
     """
+    
+    def __init__(self, db, task_config: dict = None):
+        """
+        初始化爬虫
+        
+        Args:
+            db: 数据库会话
+            task_config: 任务配置字典，包含：
+                - target_country_code: 目标国家代码
+                - target_category_code: 目标类目代码
+                - platform_code: 平台代码
+        """
+        super().__init__(db)
+        self.task_config = task_config or {}
+        
+        # 记录任务配置
+        if self.task_config.get("target_country_code") or self.task_config.get("target_category_code"):
+            logger.info(f"🏷️ 爬虫任务配置: 国家={self.task_config.get('target_country_code')}, "
+                       f"类目={self.task_config.get('target_category_code')}")
     
     async def crawl_store(self, url: str) -> Dict:
         """
@@ -368,12 +388,18 @@ class ShopifyCrawler(BaseCrawler):
         - 如果 is_available 发生变化：更新 last_available 和 status_change_at
         - 商品不存在：执行 INSERT
         - URL 标准化处理（转小写、去除末尾斜杠、统一 https、去除 www.）
+        - 自动打标：读取任务配置，自动填充 country_code, category_code, platform_code
         """
         from app.models.product import Product
         from datetime import datetime
         
         inserted_count = 0  # 新增商品数
         updated_count = 0   # 更新商品数
+        
+        # 从任务配置读取标准化字段
+        target_country_code = self.task_config.get("target_country_code")
+        target_category_code = self.task_config.get("target_category_code")
+        platform_code = self.task_config.get("platform_code", "shopify")
         
         for product_data in products:
             try:
@@ -407,6 +433,11 @@ class ShopifyCrawler(BaseCrawler):
                     existing.price = current_price
                     existing.captured_at = current_time
                     
+                    # 自动打标：如果任务配置了目标类目，则更新商品的类目代码
+                    if target_category_code:
+                        existing.category_code = target_category_code
+                        existing.data_source = "task_config"
+                    
                     # 检查库存状态是否发生变化
                     if old_available is not None and current_available is not None:
                         if old_available != current_available:
@@ -420,6 +451,7 @@ class ShopifyCrawler(BaseCrawler):
                     
                 else:
                     # 商品不存在：执行 INSERT
+                    # 自动打标：优先使用任务配置，如果未配置则使用兜底值（NULL）
                     product = Product(
                         store_id=store_id,
                         title=product_data.get("title"),
@@ -427,11 +459,14 @@ class ShopifyCrawler(BaseCrawler):
                         price=current_price,
                         currency=product_data.get("currency", "USD"),
                         image_url=product_data.get("image_url"),
-                        category=product_data.get("category"),
+                        category=product_data.get("category"),  # 旧字段，兼容保留
+                        category_code=target_category_code,  # 新字段：任务配置驱动
+                        platform_code=platform_code,  # 新字段：任务配置驱动
                         is_available=current_available,  # 当前状态
                         last_available=current_available,  # 第一次爬取，last_available = is_available
                         status_change_at=None,  # 第一次爬取，无状态变化
-                        captured_at=current_time
+                        captured_at=current_time,
+                        data_source="task_config" if target_category_code else None  # 标记数据来源
                     )
                     
                     self.db.add(product)
@@ -445,6 +480,13 @@ class ShopifyCrawler(BaseCrawler):
         try:
             self.db.commit()
             logger.info(f"✓ 保存成功: 新增 {inserted_count} 个, 更新 {updated_count} 个")
+            
+            # 打标统计
+            if target_category_code:
+                logger.info(f"🏷️ 自动打标: category_code={target_category_code}, 影响 {inserted_count + updated_count} 个商品")
+            else:
+                logger.info(f"⚠️ 未配置目标类目，商品 category_code 为 NULL")
+                
         except Exception as e:
             self.db.rollback()
             logger.error(f"✗ 数据库提交失败: {e}")

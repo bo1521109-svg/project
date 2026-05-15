@@ -2,7 +2,7 @@
  * 用户状态管理 (Pinia Store)
  */
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 export const useUserStore = defineStore('user', () => {
   // 状态
@@ -40,9 +40,15 @@ export const useUserStore = defineStore('user', () => {
     return !!token.value
   }
 
+  // 获取用户角色
+  const role = computed(() => {
+    return userInfo.value?.role || 'user'
+  })
+
   return {
     token,
     userInfo,
+    role,
     setToken,
     setUserInfo,
     login,

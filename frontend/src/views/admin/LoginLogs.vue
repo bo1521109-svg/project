@@ -232,6 +232,18 @@ onMounted(() => {
 
 <style scoped>
 .login-logs {
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-logs .el-card {
+  border-radius: 0;
+  border: none;
+}
+
+.login-logs :deep(.el-card__body) {
   padding: 20px;
 }
 

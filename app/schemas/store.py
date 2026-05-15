@@ -16,12 +16,16 @@ class StoreResponse(BaseModel):
     id: int
     name: str
     url: str
-    platform: str
-    country: Optional[str]
-    status: str
-    is_crawling: bool
-    last_crawl_at: Optional[datetime]
-    created_at: datetime
-    updated_at: datetime
+    platform: Optional[str] = None
+    country: Optional[str] = None
+    platform_code: Optional[str] = None
+    country_code: Optional[str] = None
+    sales_7d: Optional[int] = 0
+    sales_total: Optional[int] = 0
+    status: Optional[str] = "active"
+    is_crawling: Optional[bool] = False
+    last_crawl_at: Optional[datetime] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
     
     model_config = ConfigDict(from_attributes=True)

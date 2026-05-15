@@ -13,16 +13,16 @@
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="Shopify">
-              <div class="dropdown-item-with-icon">
-                <el-icon class="dropdown-icon"><ShopifyIcon /></el-icon>
-                <span>Shopify</span>
-              </div>
-            </el-dropdown-item>
             <el-dropdown-item command="TikTok">
               <div class="dropdown-item-with-icon">
                 <el-icon class="dropdown-icon"><TikTokIcon /></el-icon>
                 <span>TikTok</span>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item command="Shopify">
+              <div class="dropdown-item-with-icon">
+                <el-icon class="dropdown-icon"><ShopifyIcon /></el-icon>
+                <span>Shopify</span>
               </div>
             </el-dropdown-item>
             <el-dropdown-item command="WordPress">
@@ -189,11 +189,6 @@
           </el-sub-menu>
         </el-menu>
       </div>
-
-      <!-- 底部图片 - 固定在底部 -->
-      <div class="sidebar-image">
-        <img src="/img_8448.jpg" alt="底部图片" />
-      </div>
     </div>
   </div>
 </template>
@@ -270,9 +265,9 @@ const handlePlatformChange = (platform) => {
   currentPlatform.value = platform
   console.log('切换平台:', platform)
   
-  // 切换到TikTok时跳转到TikTok出海探索页面
+  // 切换到TikTok时跳转到TikTok品类大盘
   if (platform === 'TikTok') {
-    router.push('/overseas/explore')
+    router.push('/tiktok/category/overview')
   }
 }
 
@@ -305,23 +300,24 @@ const handleMenuSelect = (index) => {
 .shopify-sidebar {
   width: 100%;
   height: 100%;
-  padding: 10px;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  background: #f0f2f5;
+  background: #ffffff;
   box-sizing: border-box;
 }
 
 /* 上方区域 */
 .sidebar-top {
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 0;
   padding: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   gap: 8px;
   box-sizing: border-box;
+  border-bottom: 1px solid #e4e7ed;
 }
 
 /* 下拉框占满宽度 */
@@ -418,7 +414,7 @@ const handleMenuSelect = (index) => {
 
 /* 中间间隙 */
 .sidebar-gap {
-  height: 10px;
+  height: 0;
   flex-shrink: 0;
 }
 
@@ -426,9 +422,9 @@ const handleMenuSelect = (index) => {
 .sidebar-bottom {
   flex: 1;
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 0;
   padding: 6px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -544,21 +540,6 @@ const handleMenuSelect = (index) => {
 .sidebar-menu .el-sub-menu .el-menu-item:hover {
   background-color: #f5f7fa;
   color: #8b5cf6;
-}
-
-/* 底部图片样式 - 固定在底部 */
-.sidebar-image {
-  margin-top: 10px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
-}
-
-.sidebar-image img {
-  width: 100%;
-  height: auto;
-  display: block;
 }
 
 /* 工作台按钮样式 */

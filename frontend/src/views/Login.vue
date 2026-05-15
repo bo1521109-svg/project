@@ -136,8 +136,8 @@ const handleLogin = async () => {
 
     ElMessage.success('登录成功')
     
-    // 跳转到店铺管理页面
-    router.push('/stores')
+    // 跳转到出海探索页面
+    router.push('/overseas/explore')
   } catch (error) {
     ElMessage.error('登录失败：' + (error.response?.data?.detail || error.message))
   }

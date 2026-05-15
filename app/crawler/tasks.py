@@ -12,6 +12,10 @@ async def crawl_task_async(store_id: int, store_url: str):
     后台爬取任务（异步版本）
     
     超时控制：设置爬虫超时时间（如 60 秒）
+    
+    新增功能：
+    - 读取任务配置的"目标国家代码"和"目标类目代码"
+    - 自动打标到店铺和商品数据
     """
     from app.db.database import SessionLocal
     from app.models.store import Store
@@ -43,10 +47,22 @@ async def crawl_task_async(store_id: int, store_url: str):
         
         logger.info(f"📍 找到店铺: {store.name}")
         
+        # 读取任务配置
+        task_config = {
+            "target_country_code": store.target_country_code,
+            "target_category_code": store.target_category_code,
+            "platform_code": store.platform_code or "shopify"
+        }
+        
+        if task_config["target_country_code"] or task_config["target_category_code"]:
+            logger.info(f"📋 任务配置: 国家={task_config['target_country_code']}, 类目={task_config['target_category_code']}")
+        else:
+            logger.info(f"📋 任务配置: 未配置目标国家/类目，将使用兜底值")
+        
         try:
-            # 创建爬虫实例
+            # 创建爬虫实例，传入任务配置
             logger.info(f"🔧 创建爬虫实例...")
-            crawler = ShopifyCrawler(db)
+            crawler = ShopifyCrawler(db, task_config=task_config)
             
             # 直接调用异步方法（不需要 asyncio.run）
             logger.info(f"⏳ 开始爬取（超时 60 秒）...")
@@ -70,13 +86,23 @@ async def crawl_task_async(store_id: int, store_url: str):
                 logger.warning(f"  2. 网站有反爬虫保护")
                 logger.warning(f"  3. URL不正确或需要特殊处理")
             
-            # 更新店铺状态
+            # 更新店铺状态和标准化字段
             store.is_crawling = False
             store.last_crawl_at = datetime.utcnow()
             store.status = "active"
+            
+            # 自动打标：如果任务配置了目标国家/类目，则更新店铺的标准化字段
+            if task_config["target_country_code"]:
+                store.country_code = task_config["target_country_code"]
+                logger.info(f"✓ 店铺自动打标: country_code={task_config['target_country_code']}")
+            
+            if task_config["platform_code"]:
+                store.platform_code = task_config["platform_code"]
+            
             # 更新为清理后的URL
             if clean_store_url != store_url:
                 store.url = clean_store_url
+            
             db.commit()
             
             logger.info(f"✅ 店铺 {store_id} 爬取成功，共获取 {len(products)} 个商品")

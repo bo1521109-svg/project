@@ -155,6 +155,18 @@ onMounted(() => {
 
 <style scoped>
 .permission-management {
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.permission-management .el-card {
+  border-radius: 0;
+  border: none;
+}
+
+.permission-management :deep(.el-card__body) {
   padding: 20px;
 }
 

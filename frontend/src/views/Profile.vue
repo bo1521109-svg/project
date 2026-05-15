@@ -100,6 +100,23 @@ onMounted(() => {
 
 <style scoped>
 .profile-container {
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-container .el-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  border: none;
+}
+
+.profile-container :deep(.el-card__body) {
+  flex: 1;
+  overflow: auto;
   padding: 20px;
 }
 

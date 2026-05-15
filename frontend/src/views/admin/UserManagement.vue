@@ -238,6 +238,18 @@ onMounted(() => {
 
 <style scoped>
 .user-management {
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-management .el-card {
+  border-radius: 0;
+  border: none;
+}
+
+.user-management :deep(.el-card__body) {
   padding: 20px;
 }
 
