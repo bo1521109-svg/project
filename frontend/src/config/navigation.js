@@ -68,8 +68,8 @@ export const navigationConfig = [
         },
         links: [
           { name: '商品搜索', path: '/tiktok/products' },
-          { name: '商品销量榜', path: '/tiktok/products/sales-rank' },
-          { name: '商品飙升榜', path: '/tiktok/products/surge-rank' },
+          { name: '商品销量榜', path: '/tiktok/products/sales-rank', placeholder: false },
+          { name: '商品飙升榜', path: '/tiktok/products/surge-rank', placeholder: false },
           { name: '潜力新品榜', path: '/tiktok/products/potential-new' }
         ]
       },
@@ -82,8 +82,8 @@ export const navigationConfig = [
         },
         links: [
           { name: '店铺搜索', path: '/tiktok/stores' },
-          { name: '店铺爆卖榜', path: '/tiktok/stores/best-sellers' },
-          { name: '店铺飙升榜', path: '/tiktok/stores/surge-rank' },
+          { name: '店铺爆卖榜', path: '/tiktok/stores/best-sellers', placeholder: false },
+          { name: '店铺飙升榜', path: '/tiktok/stores/surge-rank', placeholder: false },
           { name: '', path: '', isBlank: true }
         ]
       },
@@ -102,7 +102,6 @@ export const navigationConfig = [
         ]
       },
       {
-        // 大卡片 5：选达人
         card: {
           title: '选达人',
           desc: '发现优质达人',
@@ -113,6 +112,44 @@ export const navigationConfig = [
           { name: '带货达人榜', path: '/tiktok/influencers/sales-rank' },
           { name: '涨粉达人榜', path: '/tiktok/influencers/follower-rank' },
           { name: '达人机构榜', path: '/tiktok/influencers/agency-rank' }
+        ]
+      },
+      {
+        card: {
+          title: '外贸',
+          desc: '跨境贸易与物流',
+          icon: 'Connection'
+        },
+        links: [
+          { name: '外贸产品', path: '/trade/product' },
+          { name: '外贸区域', path: '/trade/region' }
+        ]
+      },
+      {
+        card: {
+          title: '服务商',
+          desc: '对接优质服务资源',
+          icon: 'OfficeBuilding'
+        },
+        links: [
+          { name: '国际物流', path: '/service/logistics' },
+          { name: '海外仓', path: '/service/warehouse' },
+          { name: '资质办理', path: '/service/qualification' },
+          { name: '海外工厂', path: '/service/factory' },
+          { name: '达人对接', path: '/service/influencer' }
+        ]
+      },
+      {
+        card: {
+          title: '知识付费',
+          desc: '电商运营知识体系',
+          icon: 'Reading'
+        },
+        links: [
+          { name: '运营课程', path: '/knowledge/courses' },
+          { name: '选品指南', path: '/knowledge/guides' },
+          { name: '投放教程', path: '/knowledge/ads' },
+          { name: '案例分析', path: '/knowledge/cases' }
         ]
       }
     ]
@@ -132,9 +169,9 @@ export const navigationConfig = [
           icon: 'DataAnalysis'
         },
         links: [
-          { name: '品类大盘', path: '/shopify/category/overview', placeholder: true },
-          { name: '商品大盘', path: '/shopify/product/overview', placeholder: true },
-          { name: '店铺大盘', path: '/shopify/store/overview', placeholder: true },
+          { name: '品类大盘', path: '/shopify/category/overview', placeholder: false },
+          { name: '商品大盘', path: '/shopify/product/overview' },
+          { name: '店铺大盘', path: '/shopify/store/overview' },
           { name: 'AI 报告', path: '/shopify/ai-report', placeholder: true }
         ]
       },
@@ -147,8 +184,8 @@ export const navigationConfig = [
         },
         links: [
           { name: '商品搜索', path: '/shopify/products', placeholder: false },
-          { name: '商品销量榜', path: '/shopify/products/sales-rank', placeholder: true },
-          { name: '商品飙升榜', path: '/shopify/products/surge-rank', placeholder: true },
+          { name: '商品销量榜', path: '/shopify/products/sales-rank', placeholder: false },
+          { name: '商品飙升榜', path: '/shopify/products/surge-rank', placeholder: false },
           { name: '潜力新品榜', path: '/shopify/products/potential-new', placeholder: true }
         ]
       },
@@ -161,8 +198,8 @@ export const navigationConfig = [
         },
         links: [
           { name: '店铺搜索', path: '/shopify/stores/search', placeholder: false },
-          { name: '店铺爆卖榜', path: '/shopify/stores/best-sellers', placeholder: true },
-          { name: '店铺飙升榜', path: '/shopify/stores/surge-rank', placeholder: true }
+          { name: '店铺爆卖榜', path: '/shopify/stores/best-sellers', placeholder: false },
+    { name: '店铺飙升榜', path: '/shopify/stores/surge-rank', placeholder: false }
         ]
       },
       {
@@ -173,7 +210,18 @@ export const navigationConfig = [
           icon: 'Picture'
         },
         links: [
-          { name: '广告搜索', path: '/shopify/ads/library', placeholder: true }
+          { name: '广告搜索', path: '/shopify/ads/library', placeholder: false }
+        ]
+      },
+      {
+        // 第 5 列：找视频
+        card: {
+          title: '找视频',
+          desc: '热门视频素材',
+          icon: 'VideoCamera'
+        },
+        links: [
+          { name: '热门视频', path: '/shopify/videos/hot', placeholder: false }
         ]
       }
     ]

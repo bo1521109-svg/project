@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import VerticalLayout from '../layout/VerticalLayout.vue'
 import Stores from '../views/Stores.vue'
-import Products from '../views/Products.vue'
+import Products from '../views/shopify/ProductSearch.vue'
 import Profile from '../views/Profile.vue'
 import Login from '../views/Login.vue'
 import Placeholder from '../views/Placeholder.vue'
@@ -9,8 +9,73 @@ import UserManagement from '../views/admin/UserManagement.vue'
 import PermissionManagement from '../views/admin/PermissionManagement.vue'
 import LoginLogs from '../views/admin/LoginLogs.vue'
 import StoreSearch from '../views/shopify/StoreSearch.vue'
+import StoreBestSellers from '../views/shopify/StoreBestSellers.vue'
+import StoreSurgeRank from '../views/shopify/StoreSurgeRank.vue'
+import CategoryOverview from '../views/shopify/CategoryOverview.vue'
+import ProductOverview from '../views/shopify/ProductOverview.vue'
+import StoreDashboard from '../views/shopify/StoreDashboard.vue'
 import TikTokStoreSearch from '../views/tiktok/StoreSearch.vue'
 import TikTokProductSearch from '../views/tiktok/ProductSearch.vue'
+import TikTokSalesRank from '../views/tiktok/SalesRank.vue'
+import TikTokSurgeRank from '../views/tiktok/SurgeRank.vue'
+import TikTokStoreBestSellers from '../views/tiktok/StoreBestSellers.vue'
+import TikTokStoreSurgeRank from '../views/tiktok/StoreSurgeRank.vue'
+import TikTokStoreDashboard from '../views/tiktok/StoreDashboard.vue'
+import TikTokProductOverview from '../views/tiktok/ProductOverview.vue'
+import TikTokCategoryOverview from '../views/tiktok/CategoryOverview.vue'
+import TikTokVideoSearch from '../views/tiktok/VideoSearch.vue'
+import TikTokAdSearch from '../views/tiktok/AdSearch.vue'
+import TikTokInfluencerSearch from '../views/tiktok/InfluencerSearch.vue'
+import TikTokInfluencerSalesRank from '../views/tiktok/SalesRank.vue'
+import TikTokInfluencerFollowerRank from '../views/tiktok/FollowerRank.vue'
+import TikTokInfluencerAgencyRank from '../views/tiktok/AgencyRank.vue'
+import TradeProduct from '../views/trade/TradeProduct.vue'
+import TradeRegion from '../views/trade/TradeRegion.vue'
+import ServiceLogistics from '../views/service/ServiceLogistics.vue'
+import ServiceWarehouse from '../views/service/ServiceWarehouse.vue'
+import ServiceQualification from '../views/service/ServiceQualification.vue'
+import ServiceFactory from '../views/service/ServiceFactory.vue'
+import ServiceInfluencer from '../views/service/ServiceInfluencer.vue'
+import KnowledgeCourses from '../views/knowledge/KnowledgeCourses.vue'
+import KnowledgeGuides from '../views/knowledge/KnowledgeGuides.vue'
+import KnowledgeAds from '../views/knowledge/KnowledgeAds.vue'
+import KnowledgeCases from '../views/knowledge/KnowledgeCases.vue'
+import CreativeNaturalFlow from '../views/content/NaturalFlow.vue'
+import CreativeViralAnalysis from '../views/content/ViralAnalysis.vue'
+import CreativeSellingPoint from '../views/content/SellingPoint.vue'
+import CreativeSeedance from '../views/content/Seedance.vue'
+import CreativeAutoClip from '../views/content/AutoClip.vue'
+import CreativeClone from '../views/content/Clone.vue'
+import CreativeProductMain from '../views/content/ProductMain.vue'
+import CreativeModelSwap from '../views/content/ModelSwap.vue'
+import CreativeModelHold from '../views/content/ModelHold.vue'
+import ContentMyProduct from '../views/content/MyProduct.vue'
+import ContentMyModel from '../views/content/MyModel.vue'
+import ContentMyMaterial from '../views/content/MyMaterial.vue'
+import TikTokAIVideo from '../views/tiktok/AIVideo.vue'
+import HotVideo from '../views/shopify/HotVideo.vue'
+import AdSearch from '../views/shopify/AdSearch.vue'
+import SalesRank from '../views/shopify/SalesRank.vue'
+import SurgeRank from '../views/shopify/SurgeRank.vue'
+// 社媒平台
+import SocialTikTok from '../views/social/SocialPlatformTikTok.vue'
+import SocialFacebook from '../views/social/SocialPlatformFacebook.vue'
+import SocialInstagram from '../views/social/SocialPlatformInstagram.vue'
+import SocialTwitter from '../views/social/SocialPlatformTwitter.vue'
+import SocialYoutube from '../views/social/SocialPlatformYoutube.vue'
+import SocialPinterest from '../views/social/SocialPlatformPinterest.vue'
+import SocialReddit from '../views/social/SocialPlatformReddit.vue'
+// 私域
+import SocialPrivateLine from '../views/social/SocialPrivateLine.vue'
+import SocialPrivateWhatsapp from '../views/social/SocialPrivateWhatsapp.vue'
+// 数据看板 & 发布管理
+import SocialDashboardOverview from '../views/social/SocialDashboardOverview.vue'
+import SocialPublishManage from '../views/social/SocialPublishManage.vue'
+// 互动管理
+import SocialInteractionComments from '../views/social/SocialInteractionComments.vue'
+import SocialInteractionDirectMessages from '../views/social/SocialInteractionDirectMessages.vue'
+// 账号管理
+import SocialAccountsManage from '../views/social/SocialAccountsManage.vue'
 import { useUserStore } from '../stores/user'
 
 const routes = [
@@ -64,14 +129,14 @@ const routes = [
       {
         path: '/shopify/products/sales-rank',
         name: 'ShopifyProductsSalesRank',
-        component: Placeholder,
-        meta: { title: '商品销量榜', requiresAuth: true, placeholder: true }
+        component: SalesRank,
+        meta: { title: '商品销量榜', requiresAuth: true, placeholder: false }
       },
       {
         path: '/shopify/products/surge-rank',
         name: 'ShopifyProductsSurgeRank',
-        component: Placeholder,
-        meta: { title: '商品飙升榜', requiresAuth: true, placeholder: true }
+        component: SurgeRank,
+        meta: { title: '商品飙升榜', requiresAuth: true, placeholder: false }
       },
       {
         path: '/shopify/products/potential-new',
@@ -90,34 +155,34 @@ const routes = [
       {
         path: '/shopify/stores/best-sellers',
         name: 'ShopifyStoresBestSellers',
-        component: Placeholder,
-        meta: { title: '店铺爆卖榜', requiresAuth: true, placeholder: true }
+        component: StoreBestSellers,
+        meta: { title: '店铺爆卖榜', requiresAuth: true, placeholder: false }
       },
       {
         path: '/shopify/stores/surge-rank',
         name: 'ShopifyStoresSurgeRank',
-        component: Placeholder,
-        meta: { title: '店铺飙升榜', requiresAuth: true, placeholder: true }
+        component: StoreSurgeRank,
+        meta: { title: '店铺飙升榜', requiresAuth: true, placeholder: false }
       },
 
       // ========== 独立站数据 - 数据大盘（占位） ==========
       {
         path: '/shopify/category/overview',
         name: 'ShopifyCategoryOverview',
-        component: Placeholder,
-        meta: { title: '品类大盘', requiresAuth: true, placeholder: true }
+        component: CategoryOverview,
+        meta: { title: '品类大盘', requiresAuth: true, placeholder: false }
       },
       {
         path: '/shopify/product/overview',
         name: 'ShopifyProductOverview',
-        component: Placeholder,
-        meta: { title: '商品大盘', requiresAuth: true, placeholder: true }
+        component: ProductOverview,
+        meta: { title: '商品大盘', requiresAuth: true, placeholder: false }
       },
       {
         path: '/shopify/store/overview',
         name: 'ShopifyStoreOverview',
-        component: Placeholder,
-        meta: { title: '店铺大盘', requiresAuth: true, placeholder: true }
+        component: StoreDashboard,
+        meta: { title: '店铺大盘', requiresAuth: true, placeholder: false }
       },
       {
         path: '/shopify/ai-report',
@@ -130,16 +195,16 @@ const routes = [
       {
         path: '/shopify/ads/library',
         name: 'ShopifyAdsLibrary',
-        component: Placeholder,
-        meta: { title: '广告搜索', requiresAuth: true, placeholder: true }
+        component: AdSearch,
+        meta: { title: '广告搜索', requiresAuth: true, placeholder: false }
       },
 
       // ========== 独立站数据 - 视频（占位） ==========
       {
         path: '/shopify/videos/hot',
         name: 'ShopifyVideosHot',
-        component: Placeholder,
-        meta: { title: '热门视频', requiresAuth: true, placeholder: true }
+        component: HotVideo,
+        meta: { title: '热门视频', requiresAuth: true, placeholder: false }
       },
       {
         path: '/shopify/videos/ai',
@@ -152,20 +217,20 @@ const routes = [
       {
         path: '/tiktok/category/overview',
         name: 'TikTokCategoryOverview',
-        component: Placeholder,
-        meta: { title: '品类大盘', requiresAuth: true, placeholder: true }
+        component: TikTokCategoryOverview,
+        meta: { title: '品类大盘', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/product/overview',
         name: 'TikTokProductOverview',
-        component: Placeholder,
-        meta: { title: '商品大盘', requiresAuth: true, placeholder: true }
+        component: TikTokProductOverview,
+        meta: { title: '商品大盘', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/store/overview',
         name: 'TikTokStoreOverview',
-        component: Placeholder,
-        meta: { title: '店铺大盘', requiresAuth: true, placeholder: true }
+        component: TikTokStoreDashboard,
+        meta: { title: '店铺大盘', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/ai-report',
@@ -184,14 +249,14 @@ const routes = [
       {
         path: '/tiktok/products/sales-rank',
         name: 'TikTokProductsSalesRank',
-        component: Placeholder,
-        meta: { title: '商品销量榜', requiresAuth: true, placeholder: true }
+        component: TikTokSalesRank,
+        meta: { title: '商品销量榜', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/products/surge-rank',
         name: 'TikTokProductsSurgeRank',
-        component: Placeholder,
-        meta: { title: '商品飙升榜', requiresAuth: true, placeholder: true }
+        component: TikTokSurgeRank,
+        meta: { title: '商品飙升榜', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/products/potential-new',
@@ -228,14 +293,14 @@ const routes = [
       {
         path: '/tiktok/stores/best-sellers',
         name: 'TikTokStoresBestSellers',
-        component: Placeholder,
-        meta: { title: '店铺爆卖榜', requiresAuth: true, placeholder: true }
+        component: TikTokStoreBestSellers,
+        meta: { title: '店铺爆卖榜', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/stores/surge-rank',
         name: 'TikTokStoresSurgeRank',
-        component: Placeholder,
-        meta: { title: '店铺飙升榜', requiresAuth: true, placeholder: true }
+        component: TikTokStoreSurgeRank,
+        meta: { title: '店铺飙升榜', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/stores/medium',
@@ -244,52 +309,52 @@ const routes = [
         meta: { title: '腰部店', requiresAuth: true, placeholder: true }
       },
 
-      // ========== TikTok 数据 - 找达人（占位） ==========
+      // ========== TikTok 数据 - 找达人 ==========
       {
         path: '/tiktok/influencers',
         name: 'TikTokInfluencers',
-        component: Placeholder,
-        meta: { title: '达人搜索', requiresAuth: true, placeholder: true }
+        component: TikTokInfluencerSearch,
+        meta: { title: '达人搜索', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/influencers/sales-rank',
         name: 'TikTokInfluencersSalesRank',
-        component: Placeholder,
-        meta: { title: '带货达人榜', requiresAuth: true, placeholder: true }
+        component: TikTokInfluencerSalesRank,
+        meta: { title: '带货达人榜', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/influencers/follower-rank',
         name: 'TikTokInfluencersFollowerRank',
-        component: Placeholder,
-        meta: { title: '涨粉达人榜', requiresAuth: true, placeholder: true }
+        component: TikTokInfluencerFollowerRank,
+        meta: { title: '涨粉达人榜', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/influencers/agency-rank',
         name: 'TikTokInfluencersAgencyRank',
-        component: Placeholder,
-        meta: { title: '达人机构榜', requiresAuth: true, placeholder: true }
+        component: TikTokInfluencerAgencyRank,
+        meta: { title: '达人机构榜', requiresAuth: true, placeholder: false }
       },
 
-      // ========== TikTok 数据 - 找视频（占位） ==========
+      // ========== TikTok 数据 - 找视频 ==========
       {
         path: '/tiktok/videos',
         name: 'TikTokVideos',
-        component: Placeholder,
-        meta: { title: '视频搜索', requiresAuth: true, placeholder: true }
+        component: TikTokVideoSearch,
+        meta: { title: '视频搜索', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/videos/ai',
         name: 'TikTokVideosAi',
-        component: Placeholder,
-        meta: { title: 'AI 视频', requiresAuth: true, placeholder: true }
+        component: TikTokAIVideo,
+        meta: { title: 'AI 视频', requiresAuth: true, placeholder: false }
       },
 
-      // ========== TikTok 数据 - 找广告（占位） ==========
+      // ========== TikTok 数据 - 找广告 ==========
       {
         path: '/tiktok/ads/search',
         name: 'TikTokAdsSearch',
-        component: Placeholder,
-        meta: { title: '广告搜索', requiresAuth: true, placeholder: true }
+        component: TikTokAdSearch,
+        meta: { title: '广告搜索', requiresAuth: true, placeholder: false }
       },
       {
         path: '/tiktok/ads/mobile',
@@ -306,50 +371,50 @@ const routes = [
         meta: { title: '直播搜索', requiresAuth: true, placeholder: true }
       },
 
-      // ========== 外贸（占位） ==========
+      // ========== 外贸 ==========
       {
         path: '/trade/region',
         name: 'TradeRegion',
-        component: Placeholder,
-        meta: { title: '外贸区域', requiresAuth: true, placeholder: true }
+        component: TradeRegion,
+        meta: { title: '外贸区域', requiresAuth: true, placeholder: false }
       },
       {
         path: '/trade/product',
         name: 'TradeProduct',
-        component: Placeholder,
-        meta: { title: '外贸产品', requiresAuth: true, placeholder: true }
+        component: TradeProduct,
+        meta: { title: '外贸产品', requiresAuth: true, placeholder: false }
       },
 
-      // ========== 服务商（占位） ==========
+      // ========== 服务商 ==========
       {
         path: '/service/logistics',
         name: 'ServiceLogistics',
-        component: Placeholder,
-        meta: { title: '国际物流', requiresAuth: true, placeholder: true }
+        component: ServiceLogistics,
+        meta: { title: '国际物流', requiresAuth: true, placeholder: false }
       },
       {
         path: '/service/warehouse',
         name: 'ServiceWarehouse',
-        component: Placeholder,
-        meta: { title: '海外仓', requiresAuth: true, placeholder: true }
+        component: ServiceWarehouse,
+        meta: { title: '海外仓', requiresAuth: true, placeholder: false }
       },
       {
         path: '/service/qualification',
         name: 'ServiceQualification',
-        component: Placeholder,
-        meta: { title: '资质办理', requiresAuth: true, placeholder: true }
+        component: ServiceQualification,
+        meta: { title: '资质办理', requiresAuth: true, placeholder: false }
       },
       {
         path: '/service/factory',
         name: 'ServiceFactory',
-        component: Placeholder,
-        meta: { title: '海外工厂', requiresAuth: true, placeholder: true }
+        component: ServiceFactory,
+        meta: { title: '海外工厂', requiresAuth: true, placeholder: false }
       },
       {
         path: '/service/influencer',
         name: 'ServiceInfluencer',
-        component: Placeholder,
-        meta: { title: '达人对接', requiresAuth: true, placeholder: true }
+        component: ServiceInfluencer,
+        meta: { title: '达人对接', requiresAuth: true, placeholder: false }
       },
 
       // ========== 我的（占位） ==========
@@ -373,11 +438,35 @@ const routes = [
         component: Placeholder,
         meta: { title: '购买续费', requiresAuth: true, placeholder: true }
       },
+      // ========== 知识付费 ==========
+      {
+        path: '/knowledge/courses',
+        name: 'KnowledgeCourses',
+        component: KnowledgeCourses,
+        meta: { title: '运营课程', requiresAuth: true, placeholder: false }
+      },
+      {
+        path: '/knowledge/guides',
+        name: 'KnowledgeGuides',
+        component: KnowledgeGuides,
+        meta: { title: '选品指南', requiresAuth: true, placeholder: false }
+      },
+      {
+        path: '/knowledge/ads',
+        name: 'KnowledgeAds',
+        component: KnowledgeAds,
+        meta: { title: '投放教程', requiresAuth: true, placeholder: false }
+      },
+      {
+        path: '/knowledge/cases',
+        name: 'KnowledgeCases',
+        component: KnowledgeCases,
+        meta: { title: '案例分析', requiresAuth: true, placeholder: false }
+      },
+      // 兼容旧路由 /knowledge
       {
         path: '/knowledge',
-        name: 'Knowledge',
-        component: Placeholder,
-        meta: { title: '知识付费', requiresAuth: true, placeholder: true }
+        redirect: '/knowledge/courses'
       },
       {
         path: '/overseas/explore',
@@ -396,84 +485,84 @@ const routes = [
         meta: { title: '工作台', requiresAuth: true, placeholder: true }
       },
 
-      // ========== 内容创作 - 找创意（占位） ==========
+      // ========== 内容创作 - 找创意 ==========
       {
         path: '/content/creative/natural-flow',
         name: 'ContentCreativeNaturalFlow',
-        component: Placeholder,
-        meta: { title: '自然流/广告素材', requiresAuth: true, placeholder: true }
+        component: CreativeNaturalFlow,
+        meta: { title: '自然流/广告素材', requiresAuth: true, placeholder: false }
       },
       {
         path: '/content/creative/viral-analysis',
         name: 'ContentCreativeViralAnalysis',
-        component: Placeholder,
-        meta: { title: '爆款视频分析', requiresAuth: true, placeholder: true }
+        component: CreativeViralAnalysis,
+        meta: { title: '爆款视频分析', requiresAuth: true, placeholder: false }
       },
       {
         path: '/content/creative/selling-point',
         name: 'ContentCreativeSellingPoint',
-        component: Placeholder,
-        meta: { title: '视频卖点呈现', requiresAuth: true, placeholder: true }
+        component: CreativeSellingPoint,
+        meta: { title: '视频卖点呈现', requiresAuth: true, placeholder: false }
       },
 
-      // ========== 内容创作 - AI 视频（占位） ==========
+      // ========== 内容创作 - AI 视频 ==========
       {
         path: '/content/ai-video/seedance',
         name: 'ContentAiVideoSeedance',
-        component: Placeholder,
-        meta: { title: 'Seedance2.0/Sora2', requiresAuth: true, placeholder: true }
+        component: CreativeSeedance,
+        meta: { title: 'Seedance2.0/Sora2', requiresAuth: true, placeholder: false }
       },
       {
         path: '/content/ai-video/auto-clip',
         name: 'ContentAiVideoAutoClip',
-        component: Placeholder,
-        meta: { title: '自动生成样片', requiresAuth: true, placeholder: true }
+        component: CreativeAutoClip,
+        meta: { title: '自动生成样片', requiresAuth: true, placeholder: false }
       },
       {
         path: '/content/ai-video/clone',
         name: 'ContentAiVideoClone',
-        component: Placeholder,
-        meta: { title: '一键克隆视频', requiresAuth: true, placeholder: true }
+        component: CreativeClone,
+        meta: { title: '一键克隆视频', requiresAuth: true, placeholder: false }
       },
 
-      // ========== 内容创作 - 去生图（占位） ==========
+      // ========== 内容创作 - 去生图 ==========
       {
         path: '/content/image-gen/product-main',
         name: 'ContentImageGenProductMain',
-        component: Placeholder,
-        meta: { title: '妙做商品主图', requiresAuth: true, placeholder: true }
+        component: CreativeProductMain,
+        meta: { title: '妙做商品主图', requiresAuth: true, placeholder: false }
       },
       {
         path: '/content/image-gen/model-swap',
         name: 'ContentImageGenModelSwap',
-        component: Placeholder,
-        meta: { title: '一键模特换衣', requiresAuth: true, placeholder: true }
+        component: CreativeModelSwap,
+        meta: { title: '一键模特换衣', requiresAuth: true, placeholder: false }
       },
       {
         path: '/content/image-gen/model-hold',
         name: 'ContentImageGenModelHold',
-        component: Placeholder,
-        meta: { title: 'AI 模特手持图', requiresAuth: true, placeholder: true }
+        component: CreativeModelHold,
+        meta: { title: 'AI 模特手持图', requiresAuth: true, placeholder: false }
       },
 
-      // ========== 内容创作 - 资料库（占位） ==========
+      // ========== 内容创作 - 资料库 ==========
       {
         path: '/content/assets/my-product',
         name: 'ContentAssetsMyProduct',
-        component: Placeholder,
-        meta: { title: '我的产品', requiresAuth: true, placeholder: true }
+        component: ContentMyProduct,
+        meta: { title: '我的产品', requiresAuth: true, placeholder: false }
       },
       {
         path: '/content/assets/my-model',
         name: 'ContentAssetsMyModel',
-        component: Placeholder,
-        meta: { title: '我的模特', requiresAuth: true, placeholder: true }
+        component: ContentMyModel,
+        meta: { title: '我的模特', requiresAuth: true, placeholder: false }
       },
       {
         path: '/content/assets/my-material',
         name: 'ContentAssetsMyMaterial',
-        component: Placeholder,
-        meta: { title: '我的素材', requiresAuth: true, placeholder: true }
+        component: ContentMyMaterial,
+        meta: { title: '我的素材', requiresAuth: true, placeholder: false }
       },
 
       // ========== 社媒管理 - 工作台（占位） ==========
@@ -493,91 +582,91 @@ const routes = [
       {
         path: '/social/platforms/tiktok',
         name: 'SocialPlatformTikTok',
-        component: Placeholder,
-        meta: { title: 'TikTok', requiresAuth: true, placeholder: true }
+        component: SocialTikTok,
+        meta: { title: 'TikTok', requiresAuth: true, placeholder: false }
       },
       {
         path: '/social/platforms/facebook',
         name: 'SocialPlatformFacebook',
-        component: Placeholder,
-        meta: { title: 'Facebook', requiresAuth: true, placeholder: true }
+        component: SocialFacebook,
+        meta: { title: 'Facebook', requiresAuth: true, placeholder: false }
       },
       {
         path: '/social/platforms/instagram',
         name: 'SocialPlatformInstagram',
-        component: Placeholder,
-        meta: { title: 'Instagram', requiresAuth: true, placeholder: true }
+        component: SocialInstagram,
+        meta: { title: 'Instagram', requiresAuth: true, placeholder: false }
       },
       {
         path: '/social/platforms/twitter',
         name: 'SocialPlatformTwitter',
-        component: Placeholder,
-        meta: { title: 'Twitter/X', requiresAuth: true, placeholder: true }
+        component: SocialTwitter,
+        meta: { title: 'Twitter/X', requiresAuth: true, placeholder: false }
       },
       {
         path: '/social/platforms/youtube',
         name: 'SocialPlatformYoutube',
-        component: Placeholder,
-        meta: { title: 'YouTube', requiresAuth: true, placeholder: true }
+        component: SocialYoutube,
+        meta: { title: 'YouTube', requiresAuth: true, placeholder: false }
       },
       {
         path: '/social/platforms/pinterest',
         name: 'SocialPlatformPinterest',
-        component: Placeholder,
-        meta: { title: 'Pinterest', requiresAuth: true, placeholder: true }
+        component: SocialPinterest,
+        meta: { title: 'Pinterest', requiresAuth: true, placeholder: false }
       },
       {
         path: '/social/platforms/reddit',
         name: 'SocialPlatformReddit',
-        component: Placeholder,
-        meta: { title: 'Reddit', requiresAuth: true, placeholder: true }
+        component: SocialReddit,
+        meta: { title: 'Reddit', requiresAuth: true, placeholder: false }
       },
       // 私域组
       {
         path: '/social/private/line',
         name: 'SocialPrivateLine',
-        component: Placeholder,
-        meta: { title: 'Line', requiresAuth: true, placeholder: true }
+        component: SocialPrivateLine,
+        meta: { title: 'Line', requiresAuth: true, placeholder: false }
       },
       {
         path: '/social/private/whatsapp',
         name: 'SocialPrivateWhatsapp',
-        component: Placeholder,
-        meta: { title: "What's App", requiresAuth: true, placeholder: true }
+        component: SocialPrivateWhatsapp,
+        meta: { title: "What's App", requiresAuth: true, placeholder: false }
       },
       // 数据看板组
       {
         path: '/social/dashboard/overview',
         name: 'SocialDashboardOverview',
-        component: Placeholder,
-        meta: { title: '数据看板', requiresAuth: true, placeholder: true }
+        component: SocialDashboardOverview,
+        meta: { title: '数据看板', requiresAuth: true, placeholder: false }
       },
       // 发布管理组
       {
         path: '/social/publish/manage',
         name: 'SocialPublishManage',
-        component: Placeholder,
-        meta: { title: '发布管理', requiresAuth: true, placeholder: true }
+        component: SocialPublishManage,
+        meta: { title: '发布管理', requiresAuth: true, placeholder: false }
       },
       // 互动管理组
       {
         path: '/social/interaction/comments',
         name: 'SocialInteractionComments',
-        component: Placeholder,
-        meta: { title: '智能评论回复', requiresAuth: true, placeholder: true }
+        component: SocialInteractionComments,
+        meta: { title: '智能评论回复', requiresAuth: true, placeholder: false }
       },
       {
         path: '/social/interaction/direct-messages',
         name: 'SocialInteractionDirectMessages',
-        component: Placeholder,
-        meta: { title: '智能私信回复', requiresAuth: true, placeholder: true }
+        component: SocialInteractionDirectMessages,
+        meta: { title: '智能私信回复', requiresAuth: true, placeholder: false }
       },
       // 账号管理组
       {
         path: '/social/accounts/manage',
         name: 'SocialAccountsManage',
-        component: Placeholder,
-        meta: { title: '智能账号管理', requiresAuth: true, placeholder: true }
+        component: SocialAccountsManage,
+        meta: { title: '智能账号管理', requiresAuth: true, placeholder: false }
       },
 
       // ========== 建站精灵（占位） ==========

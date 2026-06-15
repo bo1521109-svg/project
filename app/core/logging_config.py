@@ -28,13 +28,8 @@ def setup_logging():
         format=log_format,
         datefmt=date_format,
         handlers=[
-            # 控制台输出
+            # 控制台输出（Docker 环境仅输出到控制台，避免文件描述符耗尽）
             logging.StreamHandler(sys.stdout),
-            # 文件输出
-            logging.FileHandler(
-                log_dir / "crawler.log",
-                encoding="utf-8"
-            )
         ]
     )
     

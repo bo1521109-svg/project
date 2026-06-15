@@ -1,17 +1,15 @@
 <template>
   <div class="social-sidebar">
-    <!-- 工作台按钮 -->
-    <div class="workbench-btn" @click="handleWorkbenchClick">
-      <el-icon class="workbench-icon"><Monitor /></el-icon>
-      <span class="workbench-text">工作台</span>
+    <!-- 上方区域：工作台按钮 -->
+    <div class="sidebar-top">
+      <div class="workbench-btn" @click="handleWorkbenchClick">
+        <el-icon class="workbench-icon"><Monitor /></el-icon>
+        <span class="workbench-text">工作台</span>
+      </div>
     </div>
 
-    <!-- 中间间隙 -->
-    <div class="sidebar-gap"></div>
-
-    <!-- 下方区域：导航菜单 + 底部图片 -->
+    <!-- 下方区域：导航菜单 -->
     <div class="sidebar-bottom">
-      <!-- 菜单包装器 - 可滚动区域 -->
       <div class="sidebar-menu-wrapper">
         <el-menu
           :default-active="activeMenu"
@@ -95,10 +93,6 @@
         </el-menu>
       </div>
 
-      <!-- 底部图片 - 固定在底部 -->
-      <div class="sidebar-image">
-        <img src="/img_8448.jpg" alt="底部图片" />
-      </div>
     </div>
   </div>
 </template>
@@ -137,11 +131,18 @@ const handleMenuSelect = (index) => {
 .social-sidebar {
   width: 100%;
   height: 100%;
-  padding: 10px;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  background: #f0f2f5;
+  background: #ffffff;
   box-sizing: border-box;
+}
+
+/* 上方区域 */
+.sidebar-top {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e4e7ed;
+  flex-shrink: 0;
 }
 
 /* 工作台按钮 */
@@ -149,24 +150,21 @@ const handleMenuSelect = (index) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 12px;
+  padding: 8px 12px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 10px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s;
   gap: 6px;
   box-sizing: border-box;
-  flex-shrink: 0;
 }
 
 .workbench-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7b8ff0 0%, #8a5bb0 100%);
 }
 
 .workbench-icon {
-  font-size: 16px;
+  font-size: 15px;
   color: #ffffff;
 }
 
@@ -176,19 +174,13 @@ const handleMenuSelect = (index) => {
   font-weight: 600;
 }
 
-/* 中间间隙 */
-.sidebar-gap {
-  height: 10px;
-  flex-shrink: 0;
-}
-
 /* 下方区域 */
 .sidebar-bottom {
   flex: 1;
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 0;
   padding: 6px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -294,20 +286,6 @@ const handleMenuSelect = (index) => {
   color: #8b5cf6;
 }
 
-/* 底部图片样式 - 固定在底部 */
-.sidebar-image {
-  margin-top: 10px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
-}
-
-.sidebar-image img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
 </style>
 
 <style>

@@ -1,15 +1,13 @@
 """
-店铺飙升榜模块（占位）
+店铺飙升榜模块 - 功能开发中
 """
 from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("")
+
+@router.get("", summary="店铺飙升榜", description="功能开发中")
 async def store_surge_rank():
-    """
-    店铺飙升榜接口（占位）
-    """
     return {
         "code": 200,
         "data": {},

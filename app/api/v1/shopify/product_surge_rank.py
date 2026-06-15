@@ -1,18 +1,95 @@
 """
-商品飙升榜模块（占位）
+商品飙升榜模块 - 按近7天销量降序排列，反映近期上升趋势
 """
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, Query, Request
+from sqlalchemy.orm import Session, joinedload
+from sqlalchemy import desc
+from typing import Optional
+from app.schemas.product import ProductResponse
+from app.models.product import Product
+from app.models.user import User
+from app.db.database import get_db
+from app.api.v1.auth import get_current_user
+from app.core.logging_config import logger
 
 router = APIRouter()
 
-@router.get("")
-async def product_surge_rank():
-    """
-    商品飙升榜接口（占位）
-    """
+
+@router.get("", summary="商品飙升榜", description="按近7天销量降序排列，支持国家、类目、销量区间筛选")
+async def product_surge_rank(
+    request: Request,
+    keyword: Optional[str] = Query(None, description="搜索关键词"),
+    country_code: Optional[str] = Query(None, description="国家代码"),
+    category_code: Optional[str] = Query(None, description="类目代码"),
+    sales_7d_min: Optional[int] = Query(None, description="近7天销量最小值", ge=0),
+    sales_7d_max: Optional[int] = Query(None, description="近7天销量最大值", ge=0),
+    skip: int = Query(0, description="跳过条数", ge=0),
+    limit: int = Query(100, description="返回条数", ge=1, le=500),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    all_params = dict(request.query_params)
+    logger.info(f"飙升榜请求参数: {all_params}")
+
+    query = db.query(Product).options(joinedload(Product.store))
+    filters_applied = {}
+
+    if keyword:
+        query = query.filter(Product.title.ilike(f"%{keyword}%"))
+        filters_applied['keyword'] = keyword
+
+    if country_code:
+        from app.models.store import Store
+        query = query.join(Store).filter(Store.country_code == country_code)
+        filters_applied['country_code'] = country_code
+
+    if category_code:
+        query = query.filter(Product.category_code == category_code)
+        filters_applied['category_code'] = category_code
+
+    if sales_7d_min is not None:
+        query = query.filter(Product.sales_7d >= sales_7d_min)
+        filters_applied['sales_7d_min'] = sales_7d_min
+    if sales_7d_max is not None:
+        query = query.filter(Product.sales_7d <= sales_7d_max)
+        filters_applied['sales_7d_max'] = sales_7d_max
+
+    query = query.order_by(desc(Product.sales_7d))
+    filters_applied['sort_by'] = 'sales_7d'
+    filters_applied['sort_order'] = 'desc'
+
+    total = query.count()
+    products = query.offset(skip).limit(limit).all()
+
+    result = []
+    for product in products:
+        product_dict = {
+            "id": product.id,
+            "store_id": product.store_id,
+            "title": product.title,
+            "url": product.url,
+            "price": product.price,
+            "currency": product.currency,
+            "image_url": product.image_url,
+            "category": product.category,
+            "is_available": product.is_available,
+            "last_available": product.last_available,
+            "status_change_at": product.status_change_at,
+            "last_stock": product.last_stock,
+            "sales_estimate": product.sales_estimate,
+            "sales_7d": product.sales_7d,
+            "sales_total": product.sales_total,
+            "captured_at": product.captured_at,
+            "created_at": product.created_at,
+            "updated_at": product.updated_at,
+            "store_name": product.store.name if product.store else None
+        }
+        result.append(ProductResponse(**product_dict))
+
+    logger.info(f"飙升榜结果: 总数={total}, 返回={len(products)}")
+
     return {
-        "code": 200,
-        "data": {},
-        "message": "功能开发中",
-        "placeholder": True
+        "data": result,
+        "total": total,
+        "filters_applied": filters_applied
     }

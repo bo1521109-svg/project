@@ -30,6 +30,10 @@ class ProductResponse(BaseModel):
     last_available: Optional[bool]
     status_change_at: Optional[datetime]
     
+    # 销售数据
+    sales_7d: Optional[int] = 0
+    sales_total: Optional[int] = 0
+    
     # 销售数据（已废弃）
     last_stock: Optional[int]
     sales_estimate: int
