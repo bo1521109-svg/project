@@ -266,7 +266,7 @@ import {
   View, StarFilled, Star, Plus, Check
 } from '@element-plus/icons-vue'
 import { mockTemplates } from '@/api/template'
-import TemplateCard from '@/components/website/TemplateCard.vue'
+import TemplateCard from '@/components/Website/TemplateCard.vue'
 
 const router = useRouter()
 
