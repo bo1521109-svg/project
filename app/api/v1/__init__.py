@@ -10,7 +10,8 @@ from .auth import router as auth_router
 from .ai_report import router as ai_report_router
 
 # 导入出海生态模块
-from .ecosystem_api import router as ecosystem_api_router
+# 导入 AI 出海助手模块
+from .ai_assistant import router as ai_assistant_router
 
 # 导入子模块路由
 from .shopify import router as shopify_router
@@ -56,5 +57,9 @@ router.include_router(tiktok_router)
 router.include_router(ai_report_router, prefix="/shopify/ai-report", tags=["Shopify AI报告"])
 router.include_router(ai_report_router, prefix="/tiktok/ai-report", tags=["TikTok AI报告"])
 
-# 注册出海生态路由
-router.include_router(ecosystem_api_router, prefix="/ecosystem", tags=["出海生态"])
+# 注册 AI 出海助手路由
+router.include_router(ai_assistant_router, tags=["AI出海助手"])
+
+# 注册建站模块路由
+from .website import router as website_router
+router.include_router(website_router, prefix="/website", tags=["建站管理"])

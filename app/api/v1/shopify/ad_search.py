@@ -5,7 +5,7 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("")
+@router.get("/")
 async def ad_search():
     """
     广告搜索接口（占位）

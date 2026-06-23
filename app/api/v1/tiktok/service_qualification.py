@@ -5,7 +5,7 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("")
+@router.get("/")
 async def get_qualification_services():
     """
     资质办理服务商

@@ -95,6 +95,18 @@ const routes = [
     component: Login,
     meta: { title: '登录', requiresAuth: false }
   },
+  // 站点预览（无需登录，无侧边栏布局）
+  {
+    path: '/preview/:siteId',
+    name: 'SitePreview',
+    component: () => import('../views/website/SitePreview.vue'),
+    meta: { title: '站点预览', requiresAuth: false }
+  },
+  {
+    path: '/website/:id/preview',
+    component: () => import('../views/website/SitePreview.vue'),
+    meta: { title: '站点预览', requiresAuth: false }
+  },
   {
     path: '/',
     component: VerticalLayout,
@@ -479,10 +491,23 @@ const routes = [
       {
         path: '/overseas/explore',
         name: 'OverseasExplore',
-        component: Placeholder,
-        meta: { title: '出海探索', requiresAuth: true, placeholder: true }
+        component: () => import('../views/overseas/OverseasDashboard.vue'),
+        meta: { title: '出海工作台', requiresAuth: true }
       },
-
+      // 市场洞察
+      { path: '/overseas/markets/overview', component: () => import('../views/overseas/markets/MarketOverview.vue'), meta: { title: '市场总览', requiresAuth: true } },
+      { path: '/overseas/markets/compare', component: () => import('../views/overseas/markets/MarketCompare.vue'), meta: { title: '市场对比', requiresAuth: true } },
+      { path: '/overseas/markets/hot-ranking', component: () => import('../views/overseas/markets/CategoryHotRanking.vue'), meta: { title: '品类热度榜', requiresAuth: true } },
+      // 商机发现
+      { path: '/overseas/opportunities/product-radar', component: () => import('../views/overseas/opportunities/ProductRadar.vue'), meta: { title: '爆品雷达', requiresAuth: true } },
+      { path: '/overseas/opportunities/blue-ocean', component: () => import('../views/overseas/opportunities/BlueOcean.vue'), meta: { title: '蓝海品类', requiresAuth: true } },
+      { path: '/overseas/opportunities/cross-platform', component: () => import('../views/overseas/opportunities/CrossPlatform.vue'), meta: { title: '跨平台对比', requiresAuth: true } },
+      // 趋势追踪
+      { path: '/overseas/trends', component: () => import('../views/overseas/TrendTracking.vue'), meta: { title: '趋势追踪', requiresAuth: true } },
+      // AI 出海助手
+      { path: '/overseas/ai-assistant', component: Placeholder, meta: { title: 'AI 出海助手', placeholder: true } },
+      // 生态服务
+      { path: '/overseas/ecosystem', component: () => import('../views/overseas/Ecosystem.vue'), meta: { title: '生态服务', requiresAuth: true } },
 
 
       // ========== 内容创作 - 工作台（占位） ==========
@@ -677,28 +702,40 @@ const routes = [
         meta: { title: '智能账号管理', requiresAuth: true, placeholder: false }
       },
 
-      // ========== 建站精灵（占位） ==========
+      // ========== 建站精灵 ==========
       {
         path: '/website',
-        redirect: '/website/templates'
-      },
-      {
-        path: '/website/templates',
-        name: 'WebsiteTemplates',
-        component: Placeholder,
-        meta: { title: '模板库', requiresAuth: true }
+        redirect: '/website/my-sites'
       },
       {
         path: '/website/my-sites',
         name: 'WebsiteMySites',
-        component: Placeholder,
+        component: () => import('../views/website/SiteList.vue'),
         meta: { title: '我的网站', requiresAuth: true }
       },
       {
+        path: '/website/create',
+        name: 'WebsiteCreate',
+        component: () => import('../views/website/SiteForm.vue'),
+        meta: { title: '创建站点', requiresAuth: true }
+      },
+      {
+        path: '/website/:id',
+        name: 'WebsiteDetail',
+        component: () => import('../views/website/SiteDetail.vue'),
+        meta: { title: '站点详情', requiresAuth: true }
+      },
+      {
+        path: '/website/templates',
+        name: 'TemplateLibrary',
+        component: () => import('../views/website/TemplateLibrary.vue'),
+        meta: { title: '模板库' }
+      },
+      {
         path: '/website/domains',
-        name: 'WebsiteDomains',
-        component: Placeholder,
-        meta: { title: '域名管理', requiresAuth: true }
+        name: 'DomainManagementPage',
+        component: () => import('../views/website/DomainManagementPage.vue'),
+        meta: { title: '域名管理' }
       },
 
       // ========== 客资管家 ==========
@@ -740,25 +777,13 @@ const routes = [
       // ========== 出海生态（占位） ==========
       {
         path: '/ecosystem',
-        redirect: '/ecosystem/open-platform'
-      },
-      {
-        path: '/ecosystem/open-platform',
-        name: 'EcosystemOpenPlatform',
-        component: Placeholder,
-        meta: { title: '接入开放平台', requiresAuth: true, placeholder: true }
-      },
-      {
-        path: '/ecosystem/resources',
-        name: 'EcosystemResources',
-        component: Placeholder,
-        meta: { title: '资源服务商圈', requiresAuth: true, placeholder: true }
+        redirect: '/overseas/explore'
       },
       {
         path: '/ecosystem/knowledge-base',
         name: 'EcosystemKnowledgeBase',
-        component: Placeholder,
-        meta: { title: '学习智库', requiresAuth: true, placeholder: true }
+        component: () => import('../views/ecosystem/KnowledgeBase.vue'),
+        meta: { title: '学习智库', requiresAuth: true }
       },
 
       // ========== 平台管理（管理员专属） ==========

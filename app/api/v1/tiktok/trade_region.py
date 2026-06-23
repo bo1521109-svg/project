@@ -5,7 +5,7 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("")
+@router.get("/")
 async def get_trade_regions():
     """
     外贸区域分析

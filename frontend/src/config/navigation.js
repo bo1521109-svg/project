@@ -367,18 +367,26 @@ export const navigationConfig = [
     name: '建站精灵',
     path: '/website',
     icon: 'Monitor',
-    disabled: true,
-    placeholder: true,
     children: [
       {
         card: {
-          title: '快速建站',
-          desc: '模板与域名管理',
+          title: '我的站点',
+          desc: '管理你的独立站',
           icon: 'Monitor'
         },
         links: [
+          { name: '我的网站', path: '/website/my-sites', placeholder: false },
+          { name: '创建站点', path: '/website/create', placeholder: false }
+        ]
+      },
+      {
+        card: {
+          title: '模板管理',
+          desc: '挑选精美模板',
+          icon: 'FolderOpened'
+        },
+        links: [
           { name: '模板库', path: '/website/templates', placeholder: true },
-          { name: '我的网站', path: '/website/my-sites', placeholder: true },
           { name: '域名管理', path: '/website/domains', placeholder: true }
         ]
       }
@@ -410,24 +418,11 @@ export const navigationConfig = [
 
   // 一级导航：出海生态
   {
-    name: '出海生态',
-    path: '/ecosystem',
+    name: '出海',
+    path: '/overseas/explore',
     icon: 'Star',
     tags: 'New',
-    children: [
-      {
-        card: { title: '开放平台', desc: '整合开放平台', icon: 'Box' },
-        links: [{ name: '接入开放平台', path: '/ecosystem/open-platform' }]
-      },
-      {
-        card: { title: '资源资源', desc: '优质服务商圈', icon: 'Connection' },
-        links: [{ name: '资源服务商圈', path: '/ecosystem/resources' }]
-      },
-      {
-        card: { title: '跨境智库', desc: '地图导航地图', icon: 'Reading' },
-        links: [{ name: '学习智库', path: '/ecosystem/knowledge-base' }]
-      }
-    ]
+    children: []  // 使用侧边栏二级导航，此处不展开
   }
 ]
 

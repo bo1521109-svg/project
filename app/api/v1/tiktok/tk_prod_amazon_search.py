@@ -7,7 +7,7 @@ from typing import Optional
 router = APIRouter()
 
 
-@router.get("")
+@router.get("/")
 async def search_amazon_products(
     keyword: Optional[str] = Query(None, description="搜索关键词"),
     page: int = Query(1, ge=1, description="页码"),
