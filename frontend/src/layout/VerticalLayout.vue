@@ -113,6 +113,8 @@ import ShopifySidebar from '@/components/Shopify/sidebar.vue'
 import ContentSidebar from '@/components/Content/sidebar.vue'
 import SocialSidebar from '@/components/Social/sidebar.vue'
 import CRMSidebar from '@/components/CRM/sidebar.vue'
+import WebsiteSidebar from '@/components/Website/sidebar.vue'
+import EcosystemSidebar from '@/components/Ecosystem/sidebar.vue'
 import AdminSidebar from '@/components/Admin/sidebar.vue'
 import GiftIcon from '@/components/icons/GiftIcon.vue'
 
@@ -135,7 +137,7 @@ const primaryNav = computed(() => {
     { key: 'selection', name: '选品', icon: 'Search', hasDropdown: true },
     { key: 'content', name: '创作', icon: 'Edit' },
     { key: 'social', name: '社媒', icon: 'ChatDotRound' },
-    { key: 'website', name: '建站', icon: 'Monitor', disabled: true },
+    { key: 'website', name: '建站', icon: 'Monitor' },
     { key: 'crm', name: '客资', icon: 'User' },
     { key: 'ecosystem', name: '出海', icon: 'Star' }
   ]
@@ -157,7 +159,9 @@ const currentSecondaryNav = computed(() => {
   const navMap = {
     content: ContentSidebar,
     social: SocialSidebar,
+    website: WebsiteSidebar,
     crm: CRMSidebar,
+    ecosystem: EcosystemSidebar,
     admin: AdminSidebar
   }
   
@@ -177,8 +181,9 @@ const handleNavClick = (item) => {
     selection: selectedPlatform.value === 'tiktok' ? '/tiktok/category/overview' : '/shopify/stores/search',
     content: '/content/workbench',
     social: '/social/workbench',
+    website: '/website/my-sites',
     crm: '/crm/overview',
-    ecosystem: '/ecosystem',
+    ecosystem: '/overseas/explore',
     admin: '/admin/users'
   }
   
@@ -212,8 +217,12 @@ watch(() => route.path, (newPath) => {
     activeNav.value = 'content'
   } else if (newPath.startsWith('/social')) {
     activeNav.value = 'social'
+  } else if (newPath.startsWith('/website')) {
+    activeNav.value = 'website'
   } else if (newPath.startsWith('/crm')) {
     activeNav.value = 'crm'
+  } else if (newPath.startsWith('/overseas')) {
+    activeNav.value = 'ecosystem'
   } else if (newPath.startsWith('/ecosystem')) {
     activeNav.value = 'ecosystem'
   } else if (newPath.startsWith('/admin')) {
