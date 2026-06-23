@@ -76,6 +76,16 @@ import SocialInteractionComments from '../views/social/SocialInteractionComments
 import SocialInteractionDirectMessages from '../views/social/SocialInteractionDirectMessages.vue'
 // 账号管理
 import SocialAccountsManage from '../views/social/SocialAccountsManage.vue'
+// 客资管家
+import CRMOverview from '../views/crm/CRMOverview.vue'
+import CRMCustomers from '../views/crm/CRMCustomers.vue'
+import CRMFollowUps from '../views/crm/CRMFollowUps.vue'
+import CRMAnalytics from '../views/crm/CRMAnalytics.vue'
+import CRMTags from '../views/crm/CRMTags.vue'
+// 我的
+import MyFavorites from '../views/my/MyFavorites.vue'
+import MyCreations from '../views/my/MyCreations.vue'
+import Purchase from '../views/my/Purchase.vue'
 import { useUserStore } from '../stores/user'
 
 const routes = [
@@ -417,26 +427,24 @@ const routes = [
         meta: { title: '达人对接', requiresAuth: true, placeholder: false }
       },
 
-      // ========== 我的（占位） ==========
+      // ========== 我的 ==========
       {
         path: '/my/favorites',
         name: 'MyFavorites',
-        component: Placeholder,
-        meta: { title: '我的收藏', requiresAuth: true, placeholder: true }
+        component: MyFavorites,
+        meta: { title: '我的收藏', requiresAuth: true, placeholder: false }
       },
       {
         path: '/my/creations',
         name: 'MyCreations',
-        component: Placeholder,
-        meta: { title: '我的创作', requiresAuth: true, placeholder: true }
+        component: MyCreations,
+        meta: { title: '我的创作', requiresAuth: true, placeholder: false }
       },
-
-      // ========== 其他功能（占位） ==========
       {
         path: '/purchase',
         name: 'Purchase',
-        component: Placeholder,
-        meta: { title: '购买续费', requiresAuth: true, placeholder: true }
+        component: Purchase,
+        meta: { title: '购买续费', requiresAuth: true, placeholder: false }
       },
       // ========== 知识付费 ==========
       {
@@ -693,28 +701,40 @@ const routes = [
         meta: { title: '域名管理', requiresAuth: true }
       },
 
-      // ========== 客资管家（占位） ==========
+      // ========== 客资管家 ==========
       {
         path: '/crm',
-        redirect: '/crm/customers'
+        redirect: '/crm/overview'
+      },
+      {
+        path: '/crm/overview',
+        name: 'CRMOverview',
+        component: CRMOverview,
+        meta: { title: '客资概览', requiresAuth: true, placeholder: false }
       },
       {
         path: '/crm/customers',
-        name: 'CrmCustomers',
-        component: Placeholder,
-        meta: { title: '客户管理', requiresAuth: true }
+        name: 'CRMCustomers',
+        component: CRMCustomers,
+        meta: { title: '客户管理', requiresAuth: true, placeholder: false }
       },
       {
-        path: '/crm/orders',
-        name: 'CrmOrders',
-        component: Placeholder,
-        meta: { title: '订单管理', requiresAuth: true }
+        path: '/crm/follow-ups',
+        name: 'CRMFollowUps',
+        component: CRMFollowUps,
+        meta: { title: '跟进记录', requiresAuth: true, placeholder: false }
       },
       {
-        path: '/crm/reports',
-        name: 'CrmReports',
-        component: Placeholder,
-        meta: { title: '数据报表', requiresAuth: true }
+        path: '/crm/analytics',
+        name: 'CRMAnalytics',
+        component: CRMAnalytics,
+        meta: { title: '客资分析', requiresAuth: true, placeholder: false }
+      },
+      {
+        path: '/crm/tags',
+        name: 'CRMTags',
+        component: CRMTags,
+        meta: { title: '标签管理', requiresAuth: true, placeholder: false }
       },
 
       // ========== 出海生态（占位） ==========
@@ -756,13 +776,13 @@ const routes = [
       {
         path: '/admin/crawler/logs',
         name: 'AdminCrawlerLogs',
-        component: Placeholder,
+        component: () => import('../views/admin/CrawlerLogs.vue'),
         meta: { title: '爬虫日志', requiresAuth: true, requiresAdmin: true }
       },
       {
         path: '/admin/crawler/config',
         name: 'AdminCrawlerConfig',
-        component: Placeholder,
+        component: () => import('../views/admin/CrawlerConfig.vue'),
         meta: { title: '爬虫配置', requiresAuth: true, requiresAdmin: true }
       },
       // 用户管理

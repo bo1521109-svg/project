@@ -16,6 +16,7 @@ from .ecosystem_api import router as ecosystem_api_router
 from .shopify import router as shopify_router
 from .content import router as content_router
 from .social import router as social_router
+from .crm import router as crm_router
 from .my import router as my_router
 from .admin import router as admin_router
 from .tiktok import router as tiktok_router
@@ -38,6 +39,9 @@ router.include_router(content_router, prefix="/content")
 
 # 注册社媒管理路由
 router.include_router(social_router, prefix="/social")
+
+# 注册客资管家路由
+router.include_router(crm_router, prefix="/crm")
 
 # 注册"我的"路由
 router.include_router(my_router, prefix="/my")
