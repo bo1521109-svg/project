@@ -7,7 +7,7 @@ from typing import Optional
 router = APIRouter()
 
 
-@router.get("")
+@router.get("/")
 async def get_hot_videos(
     platform: Optional[str] = Query("Shopify", description="平台类型"),
     region: Optional[str] = Query("欧美", description="地区"),

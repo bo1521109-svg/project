@@ -7,7 +7,7 @@ from typing import Optional
 router = APIRouter()
 
 
-@router.get("")
+@router.get("/")
 async def get_history_rank(
     page: int = Query(1, ge=1, description="页码"),
     page_size: int = Query(20, ge=1, le=100, description="每页数量"),

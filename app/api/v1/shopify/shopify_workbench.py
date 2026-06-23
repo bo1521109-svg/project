@@ -15,7 +15,7 @@ from datetime import datetime
 router = APIRouter()
 
 
-@router.get("")
+@router.get("/")
 async def get_workbench_overview():
     """
     获取工作台概览数据

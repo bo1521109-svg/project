@@ -5,7 +5,7 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("")
+@router.get("/")
 async def get_my_creations():
     """
     获取我的创作列表
@@ -19,7 +19,7 @@ async def get_my_creations():
         "placeholder": True
     }
 
-@router.post("")
+@router.post("/")
 async def create_content():
     """
     创建内容

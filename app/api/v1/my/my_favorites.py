@@ -5,7 +5,7 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("")
+@router.get("/")
 async def get_my_favorites():
     """
     获取我的收藏列表
@@ -19,7 +19,7 @@ async def get_my_favorites():
         "placeholder": True
     }
 
-@router.post("")
+@router.post("/")
 async def add_favorite():
     """
     添加收藏

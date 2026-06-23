@@ -5,7 +5,7 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("")
+@router.get("/")
 async def tk_store_search():
     """
     TikTok 店铺搜索接口（占位）

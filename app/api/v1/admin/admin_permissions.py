@@ -36,7 +36,7 @@ class PermissionInfo(BaseModel):
     module: str
 
 
-@router.get("")
+@router.get("/")
 async def get_roles(
     db: Session = Depends(get_db),
     admin: User = Depends(require_admin)

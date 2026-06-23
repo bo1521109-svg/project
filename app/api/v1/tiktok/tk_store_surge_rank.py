@@ -5,7 +5,7 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("")
+@router.get("/")
 async def tk_store_surge_rank():
     """
     TikTok 店铺飙升榜接口（占位）

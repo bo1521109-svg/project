@@ -1,0 +1,6 @@
+FROM project-web:latest
+
+# 覆盖修复后的源码（路由空路径已修复）
+COPY app/ /app/app/
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

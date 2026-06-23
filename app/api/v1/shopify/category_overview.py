@@ -224,7 +224,7 @@ def _generate_mock_data():
     return result
 
 
-@router.get("")
+@router.get("/")
 async def category_overview(
     country: Optional[str] = Query(None, description="国家代码"),
     date_from: Optional[str] = Query(None, description="开始日期"),
