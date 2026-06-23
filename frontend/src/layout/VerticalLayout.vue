@@ -113,8 +113,6 @@ import ShopifySidebar from '@/components/Shopify/sidebar.vue'
 import ContentSidebar from '@/components/Content/sidebar.vue'
 import SocialSidebar from '@/components/Social/sidebar.vue'
 import AdminSidebar from '@/components/Admin/sidebar.vue'
-import WebsiteSidebar from '@/components/Website/sidebar.vue'
-import EcosystemSidebar from '@/components/Ecosystem/sidebar.vue'
 import GiftIcon from '@/components/icons/GiftIcon.vue'
 
 const router = useRouter()
@@ -136,7 +134,7 @@ const primaryNav = computed(() => {
     { key: 'selection', name: '选品', icon: 'Search', hasDropdown: true },
     { key: 'content', name: '创作', icon: 'Edit' },
     { key: 'social', name: '社媒', icon: 'ChatDotRound' },
-    { key: 'website', name: '建站', icon: 'Monitor' },
+    { key: 'website', name: '建站', icon: 'Monitor', disabled: true },
     { key: 'crm', name: '客资', icon: 'User', disabled: true },
     { key: 'ecosystem', name: '出海', icon: 'Star' }
   ]
@@ -158,8 +156,6 @@ const currentSecondaryNav = computed(() => {
   const navMap = {
     content: ContentSidebar,
     social: SocialSidebar,
-    website: WebsiteSidebar,
-    ecosystem: EcosystemSidebar,
     admin: AdminSidebar
   }
   
@@ -179,7 +175,6 @@ const handleNavClick = (item) => {
     selection: selectedPlatform.value === 'tiktok' ? '/tiktok/category/overview' : '/shopify/stores/search',
     content: '/content/workbench',
     social: '/social/workbench',
-    website: '/website',
     ecosystem: '/ecosystem',
     admin: '/admin/users'
   }
@@ -218,8 +213,6 @@ watch(() => route.path, (newPath) => {
     activeNav.value = 'ecosystem'
   } else if (newPath.startsWith('/admin')) {
     activeNav.value = 'admin'
-  } else if (newPath.startsWith('/website')) {
-    activeNav.value = 'website'
   }
 }, { immediate: true })
 </script>
