@@ -112,6 +112,7 @@ import TikTokSidebar from '@/components/TikTok/sidebar.vue'
 import ShopifySidebar from '@/components/Shopify/sidebar.vue'
 import ContentSidebar from '@/components/Content/sidebar.vue'
 import SocialSidebar from '@/components/Social/sidebar.vue'
+import CRMSidebar from '@/components/CRM/sidebar.vue'
 import AdminSidebar from '@/components/Admin/sidebar.vue'
 import GiftIcon from '@/components/icons/GiftIcon.vue'
 
@@ -135,7 +136,7 @@ const primaryNav = computed(() => {
     { key: 'content', name: '创作', icon: 'Edit' },
     { key: 'social', name: '社媒', icon: 'ChatDotRound' },
     { key: 'website', name: '建站', icon: 'Monitor', disabled: true },
-    { key: 'crm', name: '客资', icon: 'User', disabled: true },
+    { key: 'crm', name: '客资', icon: 'User' },
     { key: 'ecosystem', name: '出海', icon: 'Star' }
   ]
   
@@ -156,6 +157,7 @@ const currentSecondaryNav = computed(() => {
   const navMap = {
     content: ContentSidebar,
     social: SocialSidebar,
+    crm: CRMSidebar,
     admin: AdminSidebar
   }
   
@@ -175,6 +177,7 @@ const handleNavClick = (item) => {
     selection: selectedPlatform.value === 'tiktok' ? '/tiktok/category/overview' : '/shopify/stores/search',
     content: '/content/workbench',
     social: '/social/workbench',
+    crm: '/crm/overview',
     ecosystem: '/ecosystem',
     admin: '/admin/users'
   }
@@ -209,6 +212,8 @@ watch(() => route.path, (newPath) => {
     activeNav.value = 'content'
   } else if (newPath.startsWith('/social')) {
     activeNav.value = 'social'
+  } else if (newPath.startsWith('/crm')) {
+    activeNav.value = 'crm'
   } else if (newPath.startsWith('/ecosystem')) {
     activeNav.value = 'ecosystem'
   } else if (newPath.startsWith('/admin')) {
