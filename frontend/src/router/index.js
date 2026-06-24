@@ -5,6 +5,8 @@ import Products from '../views/shopify/ProductSearch.vue'
 import Profile from '../views/Profile.vue'
 import Login from '../views/Login.vue'
 import Placeholder from '../views/Placeholder.vue'
+import ContentWorkbench from '../views/content/Workbench.vue'
+import SocialWorkbench from '../views/social/Workbench.vue'
 import UserManagement from '../views/admin/UserManagement.vue'
 import PermissionManagement from '../views/admin/PermissionManagement.vue'
 import LoginLogs from '../views/admin/LoginLogs.vue'
@@ -510,12 +512,12 @@ const routes = [
       { path: '/overseas/ecosystem', component: () => import('../views/overseas/Ecosystem.vue'), meta: { title: '生态服务', requiresAuth: true } },
 
 
-      // ========== 内容创作 - 工作台（占位） ==========
+      // ========== 内容创作 - 工作台 ==========
       {
         path: '/content/workbench',
         name: 'ContentWorkbench',
-        component: Placeholder,
-        meta: { title: '工作台', requiresAuth: true, placeholder: true }
+        component: ContentWorkbench,
+        meta: { title: '工作台', requiresAuth: true }
       },
 
       // ========== 内容创作 - 找创意 ==========
@@ -598,12 +600,12 @@ const routes = [
         meta: { title: '我的素材', requiresAuth: true, placeholder: false }
       },
 
-      // ========== 社媒管理 - 工作台（占位） ==========
+      // ========== 社媒管理 - 工作台 ==========
       {
         path: '/social/workbench',
         name: 'SocialWorkbench',
-        component: Placeholder,
-        meta: { title: '工作台', requiresAuth: true, placeholder: true }
+        component: SocialWorkbench,
+        meta: { title: '工作台', requiresAuth: true }
       },
 
       // ========== 社媒管理（占位） ==========
